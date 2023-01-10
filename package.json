@@ -1,0 +1,22 @@
+{
+  "name": "interactive-card-details-form",
+  "version": "1.0.0",
+  "description": "![Design preview for the Interactive card details form coding challenge](./design/desktop-preview.jpg)",
+  "main": "index.js",
+  "scripts": {
+    "make:css": "sass src/scss/Main.scss src/css/styles.css --watch",
+    "make:elm": "elm make src/elm/Main.elm --output=src/js/index.js",
+    "make:elm-live": "elm-live src/elm/Main.elm --start-page=index.html -- --output=src/js/index.js",
+    "start": "npm run make:css & npm run make:elm-live"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frontend-Mentor-Projects-Daniel/interactive-card-details-form.git"
+  },
+  "author": "Daniel Arzanipour",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Frontend-Mentor-Projects-Daniel/interactive-card-details-form/issues"
+  },
+  "homepage": "https://github.com/Frontend-Mentor-Projects-Daniel/interactive-card-details-form#readme"
+}
