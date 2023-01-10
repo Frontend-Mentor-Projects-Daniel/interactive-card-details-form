@@ -84,5 +84,76 @@ select {
     scroll-behavior: auto !important;
   }
 }
+:root {
+  --clr-white: 0, 0%, 100%;
+  --clr-red: 0, 100%, 66%;
+  --clr-deep-violet: 278, 68%, 11%;
+  --hsla: 1;
+  --clr-deep-violet-gradient: linear-gradient(
+    163.95deg,
+    #6348fe 4.74%,
+    #610595 88.83%
+  );
+  --label: hsla(var(--clr-deep-violet), var(--hsla));
+  --placeholder: hsla(var(--clr-deep-violet), 1);
+  --ff-space-grotesk: "Space Grotesk", sans-serif;
+  --fw-regular: 400;
+  --fw-medium: 500;
+}
+
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--clr-white);
+  font-family: var(--ff-space-grotesk);
+  font-size: 1.125rem;
+  font-weight: var(--fw-medium);
+}
+
+label {
+  color: var(--label);
+}
+
+input {
+  --hsla: 1;
+  border: 1px solid var(--placeholder);
+  padding-inline-start: 3px;
+}
+
+input::placeholder {
+  --hsla: 0.25;
+  opacity: var(--hsla);
+  color: var(--placeholder);
+}
+
+input:focus {
+  outline: none;
+  padding-inline-start: 3px;
+  border: solid 1px transparent;
+  border-radius: 8px;
+  background-image: linear-gradient(white, white), var(--clr-deep-violet-gradient);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+button,
+input {
+  border-radius: 8px;
+}
+
+.error--text {
+  color: red;
+}
+
+.error--border {
+  border-color: red;
+}
 
 /*# sourceMappingURL=styles.css.map */
