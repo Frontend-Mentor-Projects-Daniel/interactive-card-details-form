@@ -31,6 +31,7 @@
 
 // I didn't place them in their own file because 1) They're not re-usable and 2) When I tried to @include mixins earlier, they didn't work
 
+// 0PX - 500PX
 .card-image {
   @include bg-image-mobile();
 
@@ -91,7 +92,7 @@
   }
 }
 
-// LARGER THAN MOBILE
+// 500PX - 768PX
 @media (min-width: 48rem) {
   .card-image {
     @include bg-image-tablet();
@@ -134,6 +135,7 @@
   }
 }
 
+// 768PX - 1000PX
 // these media queries are for adjusting these absolutely positioned pieces of text
 @media (min-width: 62.5rem) {
   .card-image {
@@ -154,6 +156,7 @@
   }
 }
 
+// 1000PX - 1015PX
 @media (min-width: 63.4375rem) {
   .card-image {
     .front-of-card-text {
@@ -164,6 +167,7 @@
   }
 }
 
+// 1015PX - 1194PX
 @media (min-width: 74.625rem) {
   .card-image {
     .back-of-card-text {
@@ -172,6 +176,7 @@
   }
 }
 
+// 1194PX - 1230PX
 @media (min-width: 76.875rem) {
   .card-image {
     .front-of-card-text {
@@ -183,6 +188,7 @@
   }
 }
 
+// 1230PX - 1270PX
 @media (min-width: 79.375rem) {
   .card-image {
     .front-of-card-text {
@@ -197,15 +203,12 @@
   }
 }
 
-// LARGER THAN TABLET
+// 1270PX - 1290PX
 @media (min-width: 80.625rem) {
   .card-image {
     @include bg-image-desktop();
-
-    .card-logo {
-    }
-
     .back-of-card-text {
+      margin-right: -7px;
     }
 
     .front-of-card-text {
@@ -217,13 +220,11 @@
       .name {
         transform: translate(40%, 1255%);
       }
-
-      .expiry-date {
-      }
     }
   }
 }
 
+// 1290PX - 1316PX
 @media (min-width: 82.25rem) {
   .card-image {
     .front-of-card-text {

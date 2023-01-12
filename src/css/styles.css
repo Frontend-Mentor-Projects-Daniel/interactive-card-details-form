@@ -315,6 +315,9 @@ input {
     background-repeat: no-repeat, no-repeat, no-repeat;
     background-size: max(447px, 70%) min(245px, 100%), max(447px, 70%) min(245px, 100%), min(483px, 100%) 100%;
   }
+  .card-image .back-of-card-text {
+    margin-right: -7px;
+  }
   .card-image .front-of-card-text .number {
     font-size: 1.75rem;
     transform: translate(40%, 609%);
