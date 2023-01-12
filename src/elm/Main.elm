@@ -1,8 +1,9 @@
 module Main exposing (main)
 
 import Browser
+import Data exposing (ErrorMessageProps, InputProps, LabelProps, LabelWithClassProps, cvcError, cvcInput, cvcLabel, expiryError, expiryInputMonth, expiryInputYear, expiryLabelMonth, expiryLabelYear, nameError, nameInput, nameLabel, numberError, numberInput, numberLabel)
 import Html exposing (..)
-import Html.Attributes exposing (action, alt, attribute, autocomplete, class, for, height, href, id, media, method, min, minlength, name, pattern, placeholder, required, src, target, type_, width)
+import Html.Attributes exposing (action, alt, autocomplete, class, for, href, id, maxlength, media, method, minlength, name, novalidate, pattern, placeholder, required, src, target, type_)
 import Html.Attributes.Aria exposing (ariaDescribedby, ariaLive)
 import Html.Events exposing (onClick, onSubmit)
 
@@ -75,36 +76,34 @@ view model =
                     ]
                 ]
             , div [ class "card-form" ]
-                [ form [ action "/", method "get" ]
+                [ form [ action "/", method "get", novalidate False ]
                     [ fieldset [ class "fieldset--main" ]
-                        [ div [ class "name" ]
-                            [ label [ for "name" ] [ text "cardholder name" ]
-                            , input [ type_ "text", id "name", name "name", placeholder "e.g. Jane Appleseed", required True, minlength 1, ariaDescribedby "error--name", autocomplete True ] []
-                            , span [ class "error--name", id "error--name", ariaLive "polite" ] [ text "" ]
+                        [ div [ class "name form-group" ]
+                            [ viewLabel nameLabel
+                            , viewInput nameInput
+                            , viewError nameError
                             ]
-                        , div [ class "number" ]
-                            [ label [ for "number" ] [ text "card number" ]
-                            , input [ type_ "text", id "number", name "number", placeholder "e.g. 1234 5678 9123 0000", required True, pattern "[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}|[0-9]{16}", ariaDescribedby "error--number" ] []
-                            , span [ class "error--number", id "error--number", ariaLive "polite" ] [ text "" ]
+                        , div [ class "number form-group" ]
+                            [ viewLabel numberLabel
+                            , viewInput numberInput
+                            , viewError numberError
                             ]
-                        , div [ class "expiry-date-and-cvc" ]
-                            [ fieldset [ class "fieldset--expiry-date" ]
-                                [ legend [] [ text "exp.date (mm/yy)" ]
-                                , span [ class "month" ]
-                                    [ label [ for "month", class "sr-only" ] [ text "expiration date, month" ]
-                                    , input [ id "month", name "month", placeholder "MM", required True, pattern "^(0[1-9]|1[0-2])$", ariaDescribedby "error--expiry-date", Html.Attributes.maxlength 3 ] []
-                                    ]
-                                , span [ class "year" ]
-                                    [ label [ for "year", class "sr-only" ] [ text "expiration date, year" ]
-                                    , input [ id "year", name "year", placeholder "YY", required True, pattern "^\\d+$", ariaDescribedby "error--expiry-date", Html.Attributes.maxlength 3 ] []
-                                    ]
-                                , span [ class "error--expiry-date", id "error--expiry-date", ariaLive "polite" ] [ text "" ]
+                        , fieldset [ class "expiry-date-and-cvc form-group" ]
+                            [ legend [] [ text "exp.date (mm/yy)" ]
+                            , span [ class "month" ]
+                                [ viewLabelWithClass expiryLabelMonth
+                                , viewInput expiryInputMonth
                                 ]
-                            , span [ class "cvc" ]
-                                [ label [ for "cvc" ] [ text "cvc" ]
-                                , input [ id "cvc", name "cvc", placeholder "e.g. 123", required True, ariaDescribedby "error--cvc", pattern "^\\d+$", Html.Attributes.maxlength 3 ] []
-                                , span [ class "error--cvc", id "error--cvc", ariaLive "polite" ] [ text "" ]
+                            , span [ class "year" ]
+                                [ viewLabelWithClass expiryLabelYear
+                                , viewInput expiryInputYear
                                 ]
+                            , viewError expiryError
+                            ]
+                        , span [ class "cvc" ]
+                            [ viewLabel cvcLabel
+                            , viewInput cvcInput
+                            , viewError cvcError
                             ]
                         , button [ type_ "submit" ] [ text "Confirm" ]
                         ]
@@ -123,14 +122,59 @@ view model =
 
 
 
--- picture element doesn't exist as of yet so this is a replacement
-
-
-picture : List (Html.Attribute msg) -> List (Html msg) -> Html msg
-picture =
-    Html.node "picture"
-
-
-
 --** VIEW FUNCTIONS
+--^ CREATE FORM CONTROLS
+
+
+viewLabel : LabelProps -> Html msg
+viewLabel props =
+    label [ for props.for ] [ text props.text ]
+
+
+viewLabelWithClass : LabelWithClassProps -> Html msg
+viewLabelWithClass props =
+    label [ for props.for, class props.class ] [ text props.text ]
+
+
+viewInput : InputProps -> Html msg
+viewInput props =
+    input [ type_ props.type_, id props.id, name props.name, placeholder props.placeholder, required props.required, minlength (convertMaybeLength nameInput.minLength), maxlength (convertMaybeLength props.maxLength), ariaDescribedby props.describedby, autocomplete (convertMaybeBool props.autoComplete), pattern (convertMaybePattern props.pattern) ] []
+
+
+viewError : ErrorMessageProps -> Html msg
+viewError props =
+    p [ class props.class, id props.id, ariaLive props.ariaLive ] [ text props.text ]
+
+
+
 --** HELPER FUNCTIONS
+
+
+convertMaybeLength : Maybe Int -> Int
+convertMaybeLength param =
+    case param of
+        Just num ->
+            num
+
+        Nothing ->
+            99
+
+
+convertMaybeBool : Maybe Bool -> Bool
+convertMaybeBool param =
+    case param of
+        Just _ ->
+            True
+
+        Nothing ->
+            False
+
+
+convertMaybePattern : Maybe String -> String
+convertMaybePattern param =
+    case param of
+        Just str ->
+            str
+
+        Nothing ->
+            ".*"
