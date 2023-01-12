@@ -1,7 +1,4 @@
-.card-image {
-  display: flex;
-  flex-direction: column;
-
+@mixin bg-image-mobile {
   background: url('../../images/bg-card-front.png') top 126px left 16px,
     url('../../images/bg-card-back.png') top 37px right 16px,
     url('../../images/bg-main-mobile.png') top center;
@@ -10,24 +7,229 @@
     min(286px, 100%) min(157px, 100%), 100% 240px;
 }
 
-@media (min-width: 48rem) {
-  .card-image {
-    background: url('../../images/bg-card-front.png') center top 100px,
-      url('../../images/bg-card-back.png') center top 400px,
-      url('../../images/bg-main-desktop.png') left center;
-    background-repeat: no-repeat, no-repeat, no-repeat;
-    background-size: max(calc(286px - 200px), 70%) min(245px, 100%),
-      max(calc(286px - 200px), 70%) min(245px, 100%), min(483px, 100%) 100%;
+@mixin bg-image-tablet {
+  background: url('../../images/bg-card-front.png') center top 100px,
+    url('../../images/bg-card-back.png') center top 400px,
+    url('../../images/bg-main-desktop.png') left center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: max(calc(286px - 200px), 70%) min(245px, 100%),
+    max(calc(286px - 200px), 70%) min(245px, 100%), min(483px, 100%) 100%;
+}
+
+@mixin bg-image-desktop {
+  background: url('../../images/bg-card-front.png') center top 100px,
+    url('../../images/bg-card-back.png') right 30px top 400px,
+    url('../../images/bg-main-desktop.png') left center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: max(447px, 70%) min(245px, 100%),
+    max(447px, 70%) min(245px, 100%), min(483px, 100%) 100%;
+}
+
+// code was getting hard to read so I threw the background image code into mixins in order to keep the below portion a bit neater.
+
+// There would he too many params required so I simply made one mixin for each media query
+
+// I didn't place them in their own file because 1) They're not re-usable and 2) When I tried to @include mixins earlier, they didn't work
+
+.card-image {
+  @include bg-image-mobile();
+
+  display: flex;
+  flex-direction: column;
+
+  color: hsl(var(--clr-white));
+  position: relative;
+
+  .card-logo {
+    position: absolute;
+    transform: translate(80%, 497%);
+
+    width: 54px;
+    height: 30px;
+  }
+
+  .back-of-card-text {
+    margin-left: auto;
+    padding: 6.8rem;
+    margin-right: -32px;
+
+    .cvc {
+      font-size: 0.5625rem;
+    }
+  }
+
+  .front-of-card-text {
+    position: absolute;
+
+    .number {
+      letter-spacing: 2.2px;
+      transform: translate(17%, 810%);
+    }
+
+    .name {
+      font-size: 0.5625rem;
+      transform: translate(17%, 1660%);
+      letter-spacing: 1.29px;
+      text-transform: uppercase;
+    }
+
+    .expiry-date {
+      font-size: 0.5625rem;
+      transform: translate(107%, 1550%);
+    }
   }
 }
 
+// for some reason a scroll bar appears and the text disappears, this is a fix for that
+@media (max-width: 241px) {
+  .card-image {
+    .front-of-card-text {
+      .number {
+        transform: translate(17%, 370%);
+      }
+    }
+  }
+}
+
+// LARGER THAN MOBILE
+@media (min-width: 48rem) {
+  .card-image {
+    @include bg-image-tablet();
+
+    .card-logo {
+      transform: translate(151%, 297%);
+
+      width: 84px;
+      height: 47px;
+    }
+
+    .back-of-card-text {
+      margin-left: auto;
+      padding: 6.8rem;
+      padding-top: 6.8rem;
+      margin-right: 24px;
+      padding-top: 508px;
+      .cvc {
+        font-size: 0.875rem;
+      }
+    }
+
+    .front-of-card-text {
+      .number {
+        font-size: 1rem;
+        letter-spacing: 3.42px;
+        transform: translate(30%, 1119%);
+      }
+
+      .name {
+        font-size: 0.875rem;
+        transform: translate(30%, 1334%);
+      }
+
+      .expiry-date {
+        font-size: 0.875rem;
+        transform: translate(111%, 1230%);
+      }
+    }
+  }
+}
+
+// these media queries are for adjusting these absolutely positioned pieces of text
+@media (min-width: 62.5rem) {
+  .card-image {
+    .front-of-card-text {
+      .number {
+        font-size: 1.25rem;
+        transform: translate(37%, 887%);
+      }
+
+      .name {
+        transform: translate(37%, 1334%);
+      }
+
+      .expiry-date {
+        transform: translate(121%, 1230%);
+      }
+    }
+  }
+}
+
+@media (min-width: 63.4375rem) {
+  .card-image {
+    .front-of-card-text {
+      .name {
+        transform: translate(37%, 1334%);
+      }
+    }
+  }
+}
+
+@media (min-width: 74.625rem) {
+  .card-image {
+    .back-of-card-text {
+      margin-right: 36px;
+    }
+  }
+}
+
+@media (min-width: 76.875rem) {
+  .card-image {
+    .front-of-card-text {
+      .number {
+        font-size: 1.45rem;
+        transform: translate(44%, 761%);
+      }
+    }
+  }
+}
+
+@media (min-width: 79.375rem) {
+  .card-image {
+    .front-of-card-text {
+      .name {
+        transform: translate(43%, 1334%);
+      }
+
+      .expiry-date {
+        transform: translate(130%, 1230%);
+      }
+    }
+  }
+}
+
+// LARGER THAN TABLET
 @media (min-width: 80.625rem) {
   .card-image {
-    background: url('../../images/bg-card-front.png') center top 100px,
-      url('../../images/bg-card-back.png') right 30px top 400px,
-      url('../../images/bg-main-desktop.png') left center;
-    background-repeat: no-repeat, no-repeat, no-repeat;
-    background-size: max(447px, 70%) min(245px, 100%),
-      max(447px, 70%) min(245px, 100%), min(483px, 100%) 100%;
+    @include bg-image-desktop();
+
+    .card-logo {
+    }
+
+    .back-of-card-text {
+    }
+
+    .front-of-card-text {
+      .number {
+        font-size: 1.75rem;
+        transform: translate(40%, 609%);
+      }
+
+      .name {
+        transform: translate(40%, 1255%);
+      }
+
+      .expiry-date {
+      }
+    }
+  }
+}
+
+@media (min-width: 82.25rem) {
+  .card-image {
+    .front-of-card-text {
+      .expiry-date {
+        transform: translate(130%, 1152%);
+      }
+    }
   }
 }
