@@ -1,20 +1,22 @@
-@use '../mixins/breakpoints.scss' as *;
+@use '../../scss/mixins/breakpoints' as *;
 
 .wrapper {
   display: flex;
   flex-direction: column;
 
+  min-height: 100%;
+
   & :first-child {
-    flex-basis: 30%;
+    flex: 1 1 50%;
   }
 
   & :last-child {
-    flex-basis: 70%;
+    flex: 1 1 50%;
   }
+}
 
-  @include breakpoint(tablet) {
-    & {
-      flex-direction: row;
-    }
+@media (min-width: 48rem) {
+  .wrapper {
+    flex-direction: row;
   }
 }

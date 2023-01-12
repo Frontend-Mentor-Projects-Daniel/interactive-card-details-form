@@ -1,11 +1,33 @@
 .card-image {
-  picture {
-  }
+  display: flex;
+  flex-direction: column;
 
-  img {
-    object-fit: fill;
-    object-position: center;
-    height: 100%;
-    width: 100%;
+  background: url('../../images/bg-card-front.png') top 126px left 16px,
+    url('../../images/bg-card-back.png') top 37px right 16px,
+    url('../../images/bg-main-mobile.png') top center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: min(286px, 100%) min(157px, 100%),
+    min(286px, 100%) min(157px, 100%), 100% 240px;
+}
+
+@media (min-width: 48rem) {
+  .card-image {
+    background: url('../../images/bg-card-front.png') center top 100px,
+      url('../../images/bg-card-back.png') center top 400px,
+      url('../../images/bg-main-desktop.png') left center;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: max(calc(286px - 200px), 70%) min(245px, 100%),
+      max(calc(286px - 200px), 70%) min(245px, 100%), min(483px, 100%) 100%;
+  }
+}
+
+@media (min-width: 80.625rem) {
+  .card-image {
+    background: url('../../images/bg-card-front.png') center top 100px,
+      url('../../images/bg-card-back.png') right 30px top 400px,
+      url('../../images/bg-main-desktop.png') left center;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: max(447px, 70%) min(245px, 100%),
+      max(447px, 70%) min(245px, 100%), min(483px, 100%) 100%;
   }
 }

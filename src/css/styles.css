@@ -148,6 +148,13 @@ input {
   border-radius: 8px;
 }
 
+.center {
+  --measure: 1440px;
+  box-sizing: content-box;
+  margin-inline: auto;
+  max-inline-size: var(--measure);
+}
+
 .error--text {
   color: red;
 }
@@ -171,19 +178,41 @@ input {
 .wrapper {
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 }
 .wrapper :first-child {
-  flex-basis: 30%;
+  flex: 1 1 50%;
 }
 .wrapper :last-child {
-  flex-basis: 70%;
+  flex: 1 1 50%;
 }
 
-.card-image img {
-  object-fit: fill;
-  object-position: center;
-  height: 100%;
-  width: 100%;
+@media (min-width: 48rem) {
+  .wrapper {
+    flex-direction: row;
+  }
+}
+.card-image {
+  display: flex;
+  flex-direction: column;
+  background: url("../../images/bg-card-front.png") top 126px left 16px, url("../../images/bg-card-back.png") top 37px right 16px, url("../../images/bg-main-mobile.png") top center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: min(286px, 100%) min(157px, 100%), min(286px, 100%) min(157px, 100%), 100% 240px;
+}
+
+@media (min-width: 48rem) {
+  .card-image {
+    background: url("../../images/bg-card-front.png") center top 100px, url("../../images/bg-card-back.png") center top 400px, url("../../images/bg-main-desktop.png") left center;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: max(86px, 70%) min(245px, 100%), max(86px, 70%) min(245px, 100%), min(483px, 100%) 100%;
+  }
+}
+@media (min-width: 80.625rem) {
+  .card-image {
+    background: url("../../images/bg-card-front.png") center top 100px, url("../../images/bg-card-back.png") right 30px top 400px, url("../../images/bg-main-desktop.png") left center;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: max(447px, 70%) min(245px, 100%), max(447px, 70%) min(245px, 100%), min(483px, 100%) 100%;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

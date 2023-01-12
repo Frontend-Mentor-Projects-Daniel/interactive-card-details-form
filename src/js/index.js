@@ -5184,26 +5184,11 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			$elm$json$Json$Encode$string(string));
 	});
-var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
-var $elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
-var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$footer = _VirtualDom_node('footer');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$header = _VirtualDom_node('header');
-var $elm$html$Html$Attributes$height = function (n) {
-	return A2(
-		_VirtualDom_attribute,
-		'height',
-		$elm$core$String$fromInt(n));
-};
 var $elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -5211,31 +5196,11 @@ var $elm$html$Html$Attributes$href = function (url) {
 		_VirtualDom_noJavaScriptUri(url));
 };
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
-var $elm$html$Html$img = _VirtualDom_node('img');
-var $elm$html$Html$Attributes$media = _VirtualDom_attribute('media');
+var $elm$html$Html$main_ = _VirtualDom_node('main');
 var $elm$html$Html$p = _VirtualDom_node('p');
-var $elm$virtual_dom$VirtualDom$node = function (tag) {
-	return _VirtualDom_node(
-		_VirtualDom_noScript(tag));
-};
-var $elm$html$Html$node = $elm$virtual_dom$VirtualDom$node;
-var $author$project$Main$picture = $elm$html$Html$node('picture');
-var $elm$html$Html$source = _VirtualDom_node('source');
-var $elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
-};
 var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $elm$html$Html$Attributes$width = function (n) {
-	return A2(
-		_VirtualDom_attribute,
-		'width',
-		$elm$core$String$fromInt(n));
-};
 var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -5265,10 +5230,10 @@ var $author$project$Main$view = function (model) {
 							]))
 					])),
 				A2(
-				$elm$html$Html$div,
+				$elm$html$Html$main_,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('wrapper')
+						$elm$html$Html$Attributes$class('wrapper center')
 					]),
 				_List_fromArray(
 					[
@@ -5278,59 +5243,14 @@ var $author$project$Main$view = function (model) {
 							[
 								$elm$html$Html$Attributes$class('card-image')
 							]),
-						_List_fromArray(
-							[
-								A2(
-								$author$project$Main$picture,
-								_List_Nil,
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$source,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$media('(min-width: 48em)'),
-												A2($elm$html$Html$Attributes$attribute, 'srcset', './images/bg-main-desktop.png'),
-												$elm$html$Html$Attributes$width(483),
-												$elm$html$Html$Attributes$height(900)
-											]),
-										_List_Nil),
-										A2(
-										$elm$html$Html$source,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$media('(min-width: 23.4375em)'),
-												A2($elm$html$Html$Attributes$attribute, 'srcset', './images/bg-main-mobile.png'),
-												$elm$html$Html$Attributes$width(375),
-												$elm$html$Html$Attributes$height(240)
-											]),
-										_List_Nil),
-										A2(
-										$elm$html$Html$img,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$src('./images/bg-main-mobile.png'),
-												$elm$html$Html$Attributes$alt('')
-											]),
-										_List_Nil)
-									]))
-							])),
+						_List_Nil),
 						A2(
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
 								$elm$html$Html$Attributes$class('card-form')
 							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('./images/bg-card-front.png')
-									]),
-								_List_Nil)
-							]))
+						_List_Nil)
 					])),
 				A2(
 				$elm$html$Html$footer,
