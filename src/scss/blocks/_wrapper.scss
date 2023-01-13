@@ -6,11 +6,11 @@
 
   min-height: 100%;
 
-  & :first-child {
+  & .card:first-child {
     flex: 1 1 50%;
   }
 
-  & :last-child {
+  & .card:last-child {
     flex: 1 1 50%;
   }
 }

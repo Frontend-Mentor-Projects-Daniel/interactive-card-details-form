@@ -45,7 +45,7 @@ nameInput =
     , required = True
     , minLength = Just 1
     , maxLength = Nothing
-    , describedby = "error-name"
+    , describedby = "error--name"
     , autoComplete = Just True
     , pattern = Nothing
     }
@@ -53,7 +53,7 @@ nameInput =
 
 nameError : ErrorMessageProps
 nameError =
-    { class = "error--name", id = "error--name", ariaLive = "polite", text = "" }
+    { class = "error error--name", id = "error--name", ariaLive = "polite", text = "" }
 
 
 numberLabel : LabelProps
@@ -70,7 +70,7 @@ numberInput =
     , required = True
     , minLength = Nothing
     , maxLength = Nothing
-    , describedby = "error-number"
+    , describedby = "error--number"
     , autoComplete = Just True
     , pattern = Just "[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}|[0-9]{16}"
     }
@@ -78,7 +78,7 @@ numberInput =
 
 numberError : ErrorMessageProps
 numberError =
-    { class = "error--number", id = "error--number", ariaLive = "polite", text = "" }
+    { class = "error error--number", id = "error--number", ariaLive = "polite", text = "" }
 
 
 
@@ -127,14 +127,7 @@ expiryInputYear =
 
 expiryError : ErrorMessageProps
 expiryError =
-    { class = "error--expiry-date", id = "error--expiry-date", ariaLive = "polite", text = "" }
-
-
-
--- CVC INPUT
--- label [ for "cvc" ] [ text "cvc" ]
---                             , input [ id "cvc", name "cvc", placeholder "e.g. 123", required True, ariaDescribedby "error--cvc", pattern "^\\d+$", Html.Attributes.maxlength 3 ] []
---                             , p [ class "error--cvc", id "error--cvc", ariaLive "polite" ] [ text "" ]
+    { class = "error error--expiry-date", id = "error--expiry-date", ariaLive = "polite", text = "" }
 
 
 cvcLabel : LabelProps
@@ -151,7 +144,7 @@ cvcInput =
     , required = True
     , minLength = Just 3
     , maxLength = Just 3
-    , describedby = "error-cvc"
+    , describedby = "error--cvc"
     , autoComplete = Just True
     , pattern = Just "^\\d+$"
     }
@@ -159,4 +152,4 @@ cvcInput =
 
 cvcError : ErrorMessageProps
 cvcError =
-    { class = "error--cvc", id = "error--cvc", ariaLive = "polite", text = "" }
+    { class = "error error--cvc", id = "error--cvc", ariaLive = "polite", text = "" }

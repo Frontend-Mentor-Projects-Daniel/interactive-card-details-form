@@ -1,0 +1,45 @@
+.card-form {
+  display: grid;
+  place-content: center;
+
+  form {
+    fieldset {
+      border: none;
+    }
+  }
+
+  .fieldset--main {
+    gap: 7px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .form-group.double-group {
+    flex-direction: row;
+  }
+
+  .fieldset--expiry-date {
+    legend {
+      color: var(--label);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      margin-block-end: 9px;
+      text-transform: uppercase;
+    }
+
+    .expiry-wrapper {
+      display: flex;
+      gap: 9px;
+      max-inline-size: 170px;
+    }
+  }
+
+  button {
+    margin-block-start: 30px;
+    width: 100%;
+  }
+}

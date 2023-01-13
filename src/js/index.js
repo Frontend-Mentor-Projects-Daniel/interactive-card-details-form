@@ -5193,10 +5193,10 @@ var $elm$html$Html$Attributes$action = function (uri) {
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $author$project$Data$cvcError = {ariaLive: 'polite', _class: 'error--cvc', id: 'error--cvc', text: ''};
+var $author$project$Data$cvcError = {ariaLive: 'polite', _class: 'error error--cvc', id: 'error--cvc', text: ''};
 var $author$project$Data$cvcInput = {
 	autoComplete: $elm$core$Maybe$Just(true),
-	describedby: 'error-cvc',
+	describedby: 'error--cvc',
 	id: 'cvc',
 	maxLength: $elm$core$Maybe$Just(3),
 	minLength: $elm$core$Maybe$Just(3),
@@ -5208,7 +5208,7 @@ var $author$project$Data$cvcInput = {
 };
 var $author$project$Data$cvcLabel = {_for: 'cvc', text: 'cvc'};
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $author$project$Data$expiryError = {ariaLive: 'polite', _class: 'error--expiry-date', id: 'error--expiry-date', text: ''};
+var $author$project$Data$expiryError = {ariaLive: 'polite', _class: 'error error--expiry-date', id: 'error--expiry-date', text: ''};
 var $author$project$Data$expiryInputMonth = {
 	autoComplete: $elm$core$Maybe$Just(true),
 	describedby: 'error--expiry-date',
@@ -5251,10 +5251,10 @@ var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$html$Html$legend = _VirtualDom_node('legend');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
 var $elm$html$Html$Attributes$method = $elm$html$Html$Attributes$stringProperty('method');
-var $author$project$Data$nameError = {ariaLive: 'polite', _class: 'error--name', id: 'error--name', text: ''};
+var $author$project$Data$nameError = {ariaLive: 'polite', _class: 'error error--name', id: 'error--name', text: ''};
 var $author$project$Data$nameInput = {
 	autoComplete: $elm$core$Maybe$Just(true),
-	describedby: 'error-name',
+	describedby: 'error--name',
 	id: 'name',
 	maxLength: $elm$core$Maybe$Nothing,
 	minLength: $elm$core$Maybe$Just(1),
@@ -5274,10 +5274,10 @@ var $elm$html$Html$Attributes$boolProperty = F2(
 			$elm$json$Json$Encode$bool(bool));
 	});
 var $elm$html$Html$Attributes$novalidate = $elm$html$Html$Attributes$boolProperty('noValidate');
-var $author$project$Data$numberError = {ariaLive: 'polite', _class: 'error--number', id: 'error--number', text: ''};
+var $author$project$Data$numberError = {ariaLive: 'polite', _class: 'error error--number', id: 'error--number', text: ''};
 var $author$project$Data$numberInput = {
 	autoComplete: $elm$core$Maybe$Just(true),
-	describedby: 'error-number',
+	describedby: 'error--number',
 	id: 'number',
 	maxLength: $elm$core$Maybe$Nothing,
 	minLength: $elm$core$Maybe$Nothing,
@@ -5459,7 +5459,7 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('card-image')
+								$elm$html$Html$Attributes$class('card card-image')
 							]),
 						_List_fromArray(
 							[
@@ -5543,7 +5543,7 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('card-form')
+								$elm$html$Html$Attributes$class('card card-form')
 							]),
 						_List_fromArray(
 							[
@@ -5590,55 +5590,73 @@ var $author$project$Main$view = function (model) {
 														$author$project$Main$viewError($author$project$Data$numberError)
 													])),
 												A2(
-												$elm$html$Html$fieldset,
+												$elm$html$Html$div,
 												_List_fromArray(
 													[
-														$elm$html$Html$Attributes$class('expiry-date-and-cvc form-group')
+														$elm$html$Html$Attributes$class('form-group double-group')
 													]),
 												_List_fromArray(
 													[
 														A2(
-														$elm$html$Html$legend,
-														_List_Nil,
+														$elm$html$Html$fieldset,
 														_List_fromArray(
 															[
-																$elm$html$Html$text('exp.date (mm/yy)')
-															])),
-														A2(
-														$elm$html$Html$span,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$class('month')
+																$elm$html$Html$Attributes$class('fieldset--expiry-date')
 															]),
 														_List_fromArray(
 															[
-																$author$project$Main$viewLabelWithClass($author$project$Data$expiryLabelMonth),
-																$author$project$Main$viewInput($author$project$Data$expiryInputMonth)
+																A2(
+																$elm$html$Html$legend,
+																_List_Nil,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$text('exp.date (mm/yy)')
+																	])),
+																A2(
+																$elm$html$Html$div,
+																_List_fromArray(
+																	[
+																		$elm$html$Html$Attributes$class('expiry-wrapper')
+																	]),
+																_List_fromArray(
+																	[
+																		A2(
+																		$elm$html$Html$span,
+																		_List_fromArray(
+																			[
+																				$elm$html$Html$Attributes$class('month')
+																			]),
+																		_List_fromArray(
+																			[
+																				$author$project$Main$viewLabelWithClass($author$project$Data$expiryLabelMonth),
+																				$author$project$Main$viewInput($author$project$Data$expiryInputMonth)
+																			])),
+																		A2(
+																		$elm$html$Html$span,
+																		_List_fromArray(
+																			[
+																				$elm$html$Html$Attributes$class('year')
+																			]),
+																		_List_fromArray(
+																			[
+																				$author$project$Main$viewLabelWithClass($author$project$Data$expiryLabelYear),
+																				$author$project$Main$viewInput($author$project$Data$expiryInputYear)
+																			])),
+																		$author$project$Main$viewError($author$project$Data$expiryError)
+																	]))
 															])),
 														A2(
-														$elm$html$Html$span,
+														$elm$html$Html$div,
 														_List_fromArray(
 															[
-																$elm$html$Html$Attributes$class('year')
+																$elm$html$Html$Attributes$class('cvc form-group')
 															]),
 														_List_fromArray(
 															[
-																$author$project$Main$viewLabelWithClass($author$project$Data$expiryLabelYear),
-																$author$project$Main$viewInput($author$project$Data$expiryInputYear)
-															])),
-														$author$project$Main$viewError($author$project$Data$expiryError)
-													])),
-												A2(
-												$elm$html$Html$span,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('cvc')
-													]),
-												_List_fromArray(
-													[
-														$author$project$Main$viewLabel($author$project$Data$cvcLabel),
-														$author$project$Main$viewInput($author$project$Data$cvcInput),
-														$author$project$Main$viewError($author$project$Data$cvcError)
+																$author$project$Main$viewLabel($author$project$Data$cvcLabel),
+																$author$project$Main$viewInput($author$project$Data$cvcInput),
+																$author$project$Main$viewError($author$project$Data$cvcError)
+															]))
 													])),
 												A2(
 												$elm$html$Html$button,

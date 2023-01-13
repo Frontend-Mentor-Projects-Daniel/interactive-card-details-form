@@ -63,8 +63,8 @@ view model =
             [ h1 [ class "sr-only" ] [ text "Interactive Card Details Form" ]
             ]
         , main_ [ class "wrapper center" ]
-            -- card as in credit card, not a card component, thus no base card class
-            [ div [ class "card-image" ]
+            -- card as in credit card, not a card component
+            [ div [ class "card card-image" ]
                 [ div [ class "card-logo" ]
                     [ img [ src "./images/card-logo.svg", alt "" ] []
                     ]
@@ -75,7 +75,7 @@ view model =
                     , p [ class "expiry-date" ] [ text "00/00" ]
                     ]
                 ]
-            , div [ class "card-form" ]
+            , div [ class "card card-form" ]
                 [ form [ action "/", method "get", novalidate False ]
                     [ fieldset [ class "fieldset--main" ]
                         [ div [ class "name form-group" ]
@@ -88,22 +88,26 @@ view model =
                             , viewInput numberInput
                             , viewError numberError
                             ]
-                        , fieldset [ class "expiry-date-and-cvc form-group" ]
-                            [ legend [] [ text "exp.date (mm/yy)" ]
-                            , span [ class "month" ]
-                                [ viewLabelWithClass expiryLabelMonth
-                                , viewInput expiryInputMonth
+                        , div [ class "form-group double-group" ]
+                            [ fieldset [ class "fieldset--expiry-date" ]
+                                [ legend [] [ text "exp.date (mm/yy)" ]
+                                , div [ class "expiry-wrapper" ]
+                                    [ span [ class "month" ]
+                                        [ viewLabelWithClass expiryLabelMonth
+                                        , viewInput expiryInputMonth
+                                        ]
+                                    , span [ class "year" ]
+                                        [ viewLabelWithClass expiryLabelYear
+                                        , viewInput expiryInputYear
+                                        ]
+                                    , viewError expiryError
+                                    ]
                                 ]
-                            , span [ class "year" ]
-                                [ viewLabelWithClass expiryLabelYear
-                                , viewInput expiryInputYear
+                            , div [ class "cvc form-group" ]
+                                [ viewLabel cvcLabel
+                                , viewInput cvcInput
+                                , viewError cvcError
                                 ]
-                            , viewError expiryError
-                            ]
-                        , span [ class "cvc" ]
-                            [ viewLabel cvcLabel
-                            , viewInput cvcInput
-                            , viewError cvcError
                             ]
                         , button [ type_ "submit" ] [ text "Confirm" ]
                         ]

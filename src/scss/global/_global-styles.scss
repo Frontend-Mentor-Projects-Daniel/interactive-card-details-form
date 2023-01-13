@@ -38,23 +38,28 @@ body {
 
 label {
   color: var(--label);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 input {
   --hsla: 1;
   border: 1px solid var(--placeholder);
-  padding-inline-start: 3px;
+  opacity: var(--hsla);
+  padding: 0.3rem;
+  padding-inline-start: 1rem;
+  width: 100%;
 }
 
 input::placeholder {
-  --hsla: 0.25;
+  --hsla: 0.5;
   opacity: var(--hsla);
   color: var(--placeholder);
 }
 
 input:focus {
   outline: none;
-  padding-inline-start: 3px;
   border: solid 1px transparent;
   border-radius: 8px;
   background-image: linear-gradient(white, white),
@@ -66,6 +71,9 @@ input:focus {
 button {
   border: none;
   cursor: pointer;
+  color: hsl(var(--clr-white));
+  background-color: hsl(var(--clr-deep-violet));
+  padding-block: 0.7rem;
 }
 
 button,

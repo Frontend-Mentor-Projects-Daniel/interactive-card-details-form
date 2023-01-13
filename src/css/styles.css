@@ -114,23 +114,28 @@ body {
 
 label {
   color: var(--label);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 input {
   --hsla: 1;
   border: 1px solid var(--placeholder);
-  padding-inline-start: 3px;
+  opacity: var(--hsla);
+  padding: 0.3rem;
+  padding-inline-start: 1rem;
+  width: 100%;
 }
 
 input::placeholder {
-  --hsla: 0.25;
+  --hsla: 0.5;
   opacity: var(--hsla);
   color: var(--placeholder);
 }
 
 input:focus {
   outline: none;
-  padding-inline-start: 3px;
   border: solid 1px transparent;
   border-radius: 8px;
   background-image: linear-gradient(white, white), var(--clr-deep-violet-gradient);
@@ -141,6 +146,9 @@ input:focus {
 button {
   border: none;
   cursor: pointer;
+  color: hsl(var(--clr-white));
+  background-color: hsl(var(--clr-deep-violet));
+  padding-block: 0.7rem;
 }
 
 button,
@@ -180,10 +188,10 @@ input {
   flex-direction: column;
   min-height: 100%;
 }
-.wrapper :first-child {
+.wrapper .card:first-child {
   flex: 1 1 50%;
 }
-.wrapper :last-child {
+.wrapper .card:last-child {
   flex: 1 1 50%;
 }
 
@@ -330,6 +338,40 @@ input {
   .card-image .front-of-card-text .expiry-date {
     transform: translate(130%, 1152%);
   }
+}
+.card-form {
+  display: grid;
+  place-content: center;
+}
+.card-form form fieldset {
+  border: none;
+}
+.card-form .fieldset--main {
+  gap: 7px;
+}
+.card-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.card-form .form-group.double-group {
+  flex-direction: row;
+}
+.card-form .fieldset--expiry-date legend {
+  color: var(--label);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  margin-block-end: 9px;
+  text-transform: uppercase;
+}
+.card-form .fieldset--expiry-date .expiry-wrapper {
+  display: flex;
+  gap: 9px;
+  max-inline-size: 170px;
+}
+.card-form button {
+  margin-block-start: 30px;
+  width: 100%;
 }
 
 /*# sourceMappingURL=styles.css.map */
