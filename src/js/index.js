@@ -5553,7 +5553,7 @@ var $author$project$Main$view = function (model) {
 									[
 										$elm$html$Html$Attributes$action('/'),
 										$elm$html$Html$Attributes$method('get'),
-										$elm$html$Html$Attributes$novalidate(false)
+										$elm$html$Html$Attributes$novalidate(true)
 									]),
 								_List_fromArray(
 									[

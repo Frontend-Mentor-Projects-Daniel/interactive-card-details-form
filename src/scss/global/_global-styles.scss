@@ -68,6 +68,11 @@ input:focus {
   background-clip: padding-box, border-box;
 }
 
+// for preventing the invalid styles from showing while user is typing or before they've even typed anything
+input:not(:focus):not(:placeholder-shown):invalid {
+  border-color: hsl(var(--clr-red));
+}
+
 button {
   border: none;
   cursor: pointer;

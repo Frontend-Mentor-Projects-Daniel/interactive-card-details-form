@@ -76,7 +76,7 @@ view model =
                     ]
                 ]
             , div [ class "card card-form" ]
-                [ form [ action "/", method "get", novalidate False ]
+                [ form [ action "/", method "get", novalidate True ]
                     [ fieldset [ class "fieldset--main" ]
                         [ div [ class "name form-group" ]
                             [ viewLabel nameLabel

@@ -3,7 +3,6 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-
   min-height: 100%;
 
   & .card:first-child {
@@ -11,12 +10,21 @@
   }
 
   & .card:last-child {
+    padding-inline: 24px;
     flex: 1 1 50%;
+  }
+
+  .card {
+    overflow: hidden;
   }
 }
 
 @media (min-width: 48rem) {
   .wrapper {
     flex-direction: row;
+
+    & .card:last-child {
+      margin-block-start: 0;
+    }
   }
 }

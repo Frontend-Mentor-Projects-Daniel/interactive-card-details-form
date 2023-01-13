@@ -143,6 +143,10 @@ input:focus {
   background-clip: padding-box, border-box;
 }
 
+input:not(:focus):not(:placeholder-shown):invalid {
+  border-color: hsl(var(--clr-red));
+}
+
 button {
   border: none;
   cursor: pointer;
@@ -171,6 +175,11 @@ input {
   border-color: red;
 }
 
+.error {
+  color: hsl(var(--clr-red));
+  font-size: 0.75rem;
+}
+
 .sr-only {
   position: absolute !important;
   width: 1px !important;
@@ -192,12 +201,19 @@ input {
   flex: 1 1 50%;
 }
 .wrapper .card:last-child {
+  padding-inline: 24px;
   flex: 1 1 50%;
+}
+.wrapper .card {
+  overflow: hidden;
 }
 
 @media (min-width: 48rem) {
   .wrapper {
     flex-direction: row;
+  }
+  .wrapper .card:last-child {
+    margin-block-start: 0;
   }
 }
 .card-image {
