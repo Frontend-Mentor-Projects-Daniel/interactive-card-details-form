@@ -56,6 +56,10 @@ nameError =
     { class = "error error--name", id = "error--name", ariaLive = "polite", text = "" }
 
 
+
+-- CARD NUMBER INPUT
+
+
 numberLabel : LabelProps
 numberLabel =
     { for = "number", text = "card number" }
@@ -67,7 +71,7 @@ numberInput =
     , id = "number"
     , name = "number"
     , placeholder = "e.g. 1234 5678 9123 0000"
-    , required = True
+    , required = False
     , minLength = Nothing
     , maxLength = Nothing
     , describedby = "error--number"
@@ -101,7 +105,7 @@ expiryInputMonth =
     , id = "month"
     , name = "month"
     , placeholder = "MM"
-    , required = True
+    , required = False
     , minLength = Nothing
     , maxLength = Just 3
     , describedby = "error--expiry-date"
@@ -116,7 +120,7 @@ expiryInputYear =
     , id = "year"
     , name = "year"
     , placeholder = "YY"
-    , required = True
+    , required = False
     , minLength = Nothing
     , maxLength = Just 3
     , describedby = "error--expiry-date"
@@ -141,7 +145,7 @@ cvcInput =
     , id = "cvc"
     , name = "cvc"
     , placeholder = "123"
-    , required = True
+    , required = False
     , minLength = Just 3
     , maxLength = Just 3
     , describedby = "error--cvc"

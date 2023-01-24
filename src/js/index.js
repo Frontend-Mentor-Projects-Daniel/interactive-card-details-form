@@ -5163,7 +5163,10 @@ var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{},
+		{
+			currentUsername: '',
+			userCardData: {cardNumber: '', cvc: 0, expDate: 0, username: ''}
+		},
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5171,10 +5174,30 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
+var $elm$core$Debug$log = _Debug_log;
+var $elm$core$Debug$toString = _Debug_toString;
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+		return _Utils_Tuple2(
+			function () {
+				if (msg.$ === 'FormSubmission') {
+					return A2(
+						$elm$core$Debug$log,
+						$elm$core$Debug$toString(model),
+						model);
+				} else {
+					var str = msg.a;
+					return _Utils_update(
+						model,
+						{currentUsername: str});
+				}
+			}(),
+			$elm$core$Platform$Cmd$none);
 	});
+var $author$project$Main$CurrentUsernameValue = function (a) {
+	return {$: 'CurrentUsernameValue', a: a};
+};
+var $author$project$Main$FormSubmission = {$: 'FormSubmission'};
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
@@ -5191,6 +5214,16 @@ var $elm$html$Html$Attributes$action = function (uri) {
 		_VirtualDom_noJavaScriptUri(uri));
 };
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
+var $elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
+var $fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby = $elm$html$Html$Attributes$attribute('aria-describedby');
+var $fapian$elm_html_aria$Html$Attributes$Aria$ariaLive = $elm$html$Html$Attributes$attribute('aria-live');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $author$project$Data$cvcError = {ariaLive: 'polite', _class: 'error error--cvc', id: 'error--cvc', text: ''};
@@ -5203,7 +5236,7 @@ var $author$project$Data$cvcInput = {
 	name: 'cvc',
 	pattern: $elm$core$Maybe$Just('^\\d+$'),
 	placeholder: '123',
-	required: true,
+	required: false,
 	type_: 'text'
 };
 var $author$project$Data$cvcLabel = {_for: 'cvc', text: 'cvc'};
@@ -5218,7 +5251,7 @@ var $author$project$Data$expiryInputMonth = {
 	name: 'month',
 	pattern: $elm$core$Maybe$Just('^(0[1-9]|1[0-2])$'),
 	placeholder: 'MM',
-	required: true,
+	required: false,
 	type_: 'text'
 };
 var $author$project$Data$expiryInputYear = {
@@ -5230,13 +5263,14 @@ var $author$project$Data$expiryInputYear = {
 	name: 'year',
 	pattern: $elm$core$Maybe$Just('^\\d+$'),
 	placeholder: 'YY',
-	required: true,
+	required: false,
 	type_: 'text'
 };
 var $author$project$Data$expiryLabelMonth = {_class: 'sr-only', _for: 'month', text: 'expiration date, month'};
 var $author$project$Data$expiryLabelYear = {_class: 'sr-only', _for: 'year', text: 'expiration date, year'};
 var $elm$html$Html$fieldset = _VirtualDom_node('fieldset');
 var $elm$html$Html$footer = _VirtualDom_node('footer');
+var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
 var $elm$html$Html$form = _VirtualDom_node('form');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$header = _VirtualDom_node('header');
@@ -5248,32 +5282,12 @@ var $elm$html$Html$Attributes$href = function (url) {
 };
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$img = _VirtualDom_node('img');
+var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$html$Html$label = _VirtualDom_node('label');
 var $elm$html$Html$legend = _VirtualDom_node('legend');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
 var $elm$html$Html$Attributes$method = $elm$html$Html$Attributes$stringProperty('method');
-var $author$project$Data$nameError = {ariaLive: 'polite', _class: 'error error--name', id: 'error--name', text: ''};
-var $author$project$Data$nameInput = {
-	autoComplete: $elm$core$Maybe$Just(true),
-	describedby: 'error--name',
-	id: 'name',
-	maxLength: $elm$core$Maybe$Nothing,
-	minLength: $elm$core$Maybe$Just(1),
-	name: 'name',
-	pattern: $elm$core$Maybe$Nothing,
-	placeholder: 'e.g. Jane Appleseed',
-	required: true,
-	type_: 'text'
-};
-var $author$project$Data$nameLabel = {_for: 'name', text: 'cardholder name'};
-var $elm$json$Json$Encode$bool = _Json_wrap;
-var $elm$html$Html$Attributes$boolProperty = F2(
-	function (key, bool) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$bool(bool));
-	});
-var $elm$html$Html$Attributes$novalidate = $elm$html$Html$Attributes$boolProperty('noValidate');
+var $elm$html$Html$Attributes$name = $elm$html$Html$Attributes$stringProperty('name');
 var $author$project$Data$numberError = {ariaLive: 'polite', _class: 'error error--number', id: 'error--number', text: ''};
 var $author$project$Data$numberInput = {
 	autoComplete: $elm$core$Maybe$Just(true),
@@ -5284,11 +5298,68 @@ var $author$project$Data$numberInput = {
 	name: 'number',
 	pattern: $elm$core$Maybe$Just('[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}|[0-9]{16}'),
 	placeholder: 'e.g. 1234 5678 9123 0000',
-	required: true,
+	required: false,
 	type_: 'text'
 };
 var $author$project$Data$numberLabel = {_for: 'number', text: 'card number'};
+var $elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $elm$html$Html$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
+};
+var $elm$html$Html$Events$alwaysPreventDefault = function (msg) {
+	return _Utils_Tuple2(msg, true);
+};
+var $elm$virtual_dom$VirtualDom$MayPreventDefault = function (a) {
+	return {$: 'MayPreventDefault', a: a};
+};
+var $elm$html$Html$Events$preventDefaultOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayPreventDefault(decoder));
+	});
+var $elm$html$Html$Events$onSubmit = function (msg) {
+	return A2(
+		$elm$html$Html$Events$preventDefaultOn,
+		'submit',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysPreventDefault,
+			$elm$json$Json$Decode$succeed(msg)));
+};
 var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
@@ -5300,15 +5371,6 @@ var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty(
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
-var $elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
-var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
-var $fapian$elm_html_aria$Html$Attributes$Aria$ariaLive = $elm$html$Html$Attributes$attribute('aria-live');
 var $author$project$Main$viewError = function (props) {
 	return A2(
 		$elm$html$Html$p,
@@ -5323,7 +5385,6 @@ var $author$project$Main$viewError = function (props) {
 				$elm$html$Html$text(props.text)
 			]));
 };
-var $fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby = $elm$html$Html$Attributes$attribute('aria-describedby');
 var $elm$html$Html$Attributes$autocomplete = function (bool) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -5353,7 +5414,6 @@ var $author$project$Main$convertMaybePattern = function (param) {
 		return '.*';
 	}
 };
-var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$Attributes$maxlength = function (n) {
 	return A2(
 		_VirtualDom_attribute,
@@ -5366,9 +5426,27 @@ var $elm$html$Html$Attributes$minlength = function (n) {
 		'minLength',
 		$elm$core$String$fromInt(n));
 };
-var $elm$html$Html$Attributes$name = $elm$html$Html$Attributes$stringProperty('name');
+var $author$project$Data$nameInput = {
+	autoComplete: $elm$core$Maybe$Just(true),
+	describedby: 'error--name',
+	id: 'name',
+	maxLength: $elm$core$Maybe$Nothing,
+	minLength: $elm$core$Maybe$Just(1),
+	name: 'name',
+	pattern: $elm$core$Maybe$Nothing,
+	placeholder: 'e.g. Jane Appleseed',
+	required: true,
+	type_: 'text'
+};
 var $elm$html$Html$Attributes$pattern = $elm$html$Html$Attributes$stringProperty('pattern');
-var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
 var $elm$html$Html$Attributes$required = $elm$html$Html$Attributes$boolProperty('required');
 var $author$project$Main$viewInput = function (props) {
 	return A2(
@@ -5392,8 +5470,6 @@ var $author$project$Main$viewInput = function (props) {
 			]),
 		_List_Nil);
 };
-var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
-var $elm$html$Html$label = _VirtualDom_node('label');
 var $author$project$Main$viewLabel = function (props) {
 	return A2(
 		$elm$html$Html$label,
@@ -5553,7 +5629,7 @@ var $author$project$Main$view = function (model) {
 									[
 										$elm$html$Html$Attributes$action('/'),
 										$elm$html$Html$Attributes$method('get'),
-										$elm$html$Html$Attributes$novalidate(true)
+										$elm$html$Html$Events$onSubmit($author$project$Main$FormSubmission)
 									]),
 								_List_fromArray(
 									[
@@ -5573,9 +5649,40 @@ var $author$project$Main$view = function (model) {
 													]),
 												_List_fromArray(
 													[
-														$author$project$Main$viewLabel($author$project$Data$nameLabel),
-														$author$project$Main$viewInput($author$project$Data$nameInput),
-														$author$project$Main$viewError($author$project$Data$nameError)
+														A2(
+														$elm$html$Html$label,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$for('name')
+															]),
+														_List_fromArray(
+															[
+																$elm$html$Html$text('cardholder name')
+															])),
+														A2(
+														$elm$html$Html$input,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$type_('text'),
+																$elm$html$Html$Attributes$id('name'),
+																$elm$html$Html$Attributes$name('name'),
+																$elm$html$Html$Attributes$placeholder('e.g. Jane Appleseed'),
+																$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--name'),
+																$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite'),
+																$elm$html$Html$Events$onInput($author$project$Main$CurrentUsernameValue)
+															]),
+														_List_Nil),
+														A2(
+														$elm$html$Html$p,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$id('error--name'),
+																$elm$html$Html$Attributes$class('error--name')
+															]),
+														_List_fromArray(
+															[
+																$elm$html$Html$text('')
+															]))
 													])),
 												A2(
 												$elm$html$Html$div,
