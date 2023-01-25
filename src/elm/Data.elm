@@ -1,3 +1,6 @@
+--! THIS FOLDER CONTAINS THINGS I USED FOR MY PREVIOUS METHOD
+
+
 module Data exposing (..)
 
 
@@ -14,12 +17,6 @@ type alias InputProps =
     , id : String
     , name : String
     , placeholder : String
-    , required : Bool
-    , minLength : Maybe Int
-    , maxLength : Maybe Int
-    , describedby : String
-    , autoComplete : Maybe Bool
-    , pattern : Maybe String
     }
 
 
@@ -42,12 +39,6 @@ nameInput =
     , id = "name"
     , name = "name"
     , placeholder = "e.g. Jane Appleseed"
-    , required = True
-    , minLength = Just 1
-    , maxLength = Nothing
-    , describedby = "error--name"
-    , autoComplete = Just True
-    , pattern = Nothing
     }
 
 
@@ -71,12 +62,8 @@ numberInput =
     , id = "number"
     , name = "number"
     , placeholder = "e.g. 1234 5678 9123 0000"
-    , required = False
-    , minLength = Nothing
-    , maxLength = Nothing
-    , describedby = "error--number"
-    , autoComplete = Just True
-    , pattern = Just "[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}|[0-9]{16}"
+
+    -- , pattern = Just "[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}|[0-9]{16}"
     }
 
 
@@ -105,12 +92,8 @@ expiryInputMonth =
     , id = "month"
     , name = "month"
     , placeholder = "MM"
-    , required = False
-    , minLength = Nothing
-    , maxLength = Just 3
-    , describedby = "error--expiry-date"
-    , autoComplete = Just True
-    , pattern = Just "^(0[1-9]|1[0-2])$"
+
+    -- , pattern = Just "^(0[1-9]|1[0-2])$"
     }
 
 
@@ -120,12 +103,8 @@ expiryInputYear =
     , id = "year"
     , name = "year"
     , placeholder = "YY"
-    , required = False
-    , minLength = Nothing
-    , maxLength = Just 3
-    , describedby = "error--expiry-date"
-    , autoComplete = Just True
-    , pattern = Just "^\\d+$"
+
+    -- , pattern = Just "^\\d+$"
     }
 
 
@@ -145,15 +124,41 @@ cvcInput =
     , id = "cvc"
     , name = "cvc"
     , placeholder = "123"
-    , required = False
-    , minLength = Just 3
-    , maxLength = Just 3
-    , describedby = "error--cvc"
-    , autoComplete = Just True
-    , pattern = Just "^\\d+$"
+
+    -- , pattern = Just "^\\d+$"
     }
 
 
 cvcError : ErrorMessageProps
 cvcError =
     { class = "error error--cvc", id = "error--cvc", ariaLive = "polite", text = "" }
+
+
+convertMaybeLength : Maybe Int -> Int
+convertMaybeLength param =
+    case param of
+        Just num ->
+            num
+
+        Nothing ->
+            99
+
+
+convertMaybeBool : Maybe Bool -> Bool
+convertMaybeBool param =
+    case param of
+        Just _ ->
+            True
+
+        Nothing ->
+            False
+
+
+convertMaybePattern : Maybe String -> String
+convertMaybePattern param =
+    case param of
+        Just str ->
+            str
+
+        Nothing ->
+            ".*"

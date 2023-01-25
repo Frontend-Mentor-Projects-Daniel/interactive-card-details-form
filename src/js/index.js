@@ -5164,8 +5164,12 @@ var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
 		{
+			cardCvcError: '',
+			cardExpDateError: '',
+			cardNumberError: '',
 			currentUsername: '',
-			userCardData: {cardNumber: '', cvc: 0, expDate: 0, username: ''}
+			userCardData: {cardNumber: '', cvc: 0, expDate: 0, username: ''},
+			usernameError: ''
 		},
 		$elm$core$Platform$Cmd$none);
 };
@@ -5176,27 +5180,45 @@ var $author$project$Main$subscriptions = function (_v0) {
 };
 var $elm$core$Debug$log = _Debug_log;
 var $elm$core$Debug$toString = _Debug_toString;
+var $elm$core$String$trim = _String_trim;
+var $author$project$Main$validateUsername = function (username) {
+	var tooShort = ($elm$core$String$length(
+		$elm$core$String$trim(username)) < 1) ? false : true;
+	return tooShort;
+};
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		return _Utils_Tuple2(
 			function () {
-				if (msg.$ === 'FormSubmission') {
-					return A2(
-						$elm$core$Debug$log,
-						$elm$core$Debug$toString(model),
-						model);
-				} else {
-					var str = msg.a;
-					return _Utils_update(
-						model,
-						{currentUsername: str});
+				switch (msg.$) {
+					case 'FormSubmission':
+						return A2(
+							$elm$core$Debug$log,
+							$elm$core$Debug$toString(model),
+							model);
+					case 'CurrentUsernameValue':
+						var username = msg.a;
+						return $author$project$Main$validateUsername(username) ? _Utils_update(
+							model,
+							{currentUsername: username, usernameError: ''}) : _Utils_update(
+							model,
+							{currentUsername: username, usernameError: 'Name must be at least 1 character long'});
+					case 'CurrentCardNumberValue':
+						var cardNumber = msg.a;
+						return model;
+					case 'CurrentExpDateMonthValue':
+						var expDate = msg.a;
+						return model;
+					case 'CurrentExpDateYearValue':
+						var expDate = msg.a;
+						return model;
+					default:
+						var expDate = msg.a;
+						return model;
 				}
 			}(),
 			$elm$core$Platform$Cmd$none);
 	});
-var $author$project$Main$CurrentUsernameValue = function (a) {
-	return {$: 'CurrentUsernameValue', a: a};
-};
 var $author$project$Main$FormSubmission = {$: 'FormSubmission'};
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$json$Json$Encode$string = _Json_wrap;
@@ -5207,12 +5229,6 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			$elm$json$Json$Encode$string(string));
 	});
-var $elm$html$Html$Attributes$action = function (uri) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'action',
-		_VirtualDom_noJavaScriptUri(uri));
-};
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
@@ -5226,51 +5242,9 @@ var $fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby = $elm$html$Html$
 var $fapian$elm_html_aria$Html$Attributes$Aria$ariaLive = $elm$html$Html$Attributes$attribute('aria-live');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $author$project$Data$cvcError = {ariaLive: 'polite', _class: 'error error--cvc', id: 'error--cvc', text: ''};
-var $author$project$Data$cvcInput = {
-	autoComplete: $elm$core$Maybe$Just(true),
-	describedby: 'error--cvc',
-	id: 'cvc',
-	maxLength: $elm$core$Maybe$Just(3),
-	minLength: $elm$core$Maybe$Just(3),
-	name: 'cvc',
-	pattern: $elm$core$Maybe$Just('^\\d+$'),
-	placeholder: '123',
-	required: false,
-	type_: 'text'
-};
-var $author$project$Data$cvcLabel = {_for: 'cvc', text: 'cvc'};
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $author$project$Data$expiryError = {ariaLive: 'polite', _class: 'error error--expiry-date', id: 'error--expiry-date', text: ''};
-var $author$project$Data$expiryInputMonth = {
-	autoComplete: $elm$core$Maybe$Just(true),
-	describedby: 'error--expiry-date',
-	id: 'month',
-	maxLength: $elm$core$Maybe$Just(3),
-	minLength: $elm$core$Maybe$Nothing,
-	name: 'month',
-	pattern: $elm$core$Maybe$Just('^(0[1-9]|1[0-2])$'),
-	placeholder: 'MM',
-	required: false,
-	type_: 'text'
-};
-var $author$project$Data$expiryInputYear = {
-	autoComplete: $elm$core$Maybe$Just(true),
-	describedby: 'error--expiry-date',
-	id: 'year',
-	maxLength: $elm$core$Maybe$Just(3),
-	minLength: $elm$core$Maybe$Nothing,
-	name: 'year',
-	pattern: $elm$core$Maybe$Just('^\\d+$'),
-	placeholder: 'YY',
-	required: false,
-	type_: 'text'
-};
-var $author$project$Data$expiryLabelMonth = {_class: 'sr-only', _for: 'month', text: 'expiration date, month'};
-var $author$project$Data$expiryLabelYear = {_class: 'sr-only', _for: 'year', text: 'expiration date, year'};
 var $elm$html$Html$fieldset = _VirtualDom_node('fieldset');
 var $elm$html$Html$footer = _VirtualDom_node('footer');
-var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
 var $elm$html$Html$form = _VirtualDom_node('form');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$header = _VirtualDom_node('header');
@@ -5282,33 +5256,67 @@ var $elm$html$Html$Attributes$href = function (url) {
 };
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$img = _VirtualDom_node('img');
-var $elm$html$Html$input = _VirtualDom_node('input');
-var $elm$html$Html$label = _VirtualDom_node('label');
 var $elm$html$Html$legend = _VirtualDom_node('legend');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
-var $elm$html$Html$Attributes$method = $elm$html$Html$Attributes$stringProperty('method');
-var $elm$html$Html$Attributes$name = $elm$html$Html$Attributes$stringProperty('name');
-var $author$project$Data$numberError = {ariaLive: 'polite', _class: 'error error--number', id: 'error--number', text: ''};
-var $author$project$Data$numberInput = {
-	autoComplete: $elm$core$Maybe$Just(true),
-	describedby: 'error--number',
-	id: 'number',
-	maxLength: $elm$core$Maybe$Nothing,
-	minLength: $elm$core$Maybe$Nothing,
-	name: 'number',
-	pattern: $elm$core$Maybe$Just('[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}|[0-9]{16}'),
-	placeholder: 'e.g. 1234 5678 9123 0000',
-	required: false,
-	type_: 'text'
+var $elm$html$Html$Events$alwaysPreventDefault = function (msg) {
+	return _Utils_Tuple2(msg, true);
 };
-var $author$project$Data$numberLabel = {_for: 'number', text: 'card number'};
+var $elm$virtual_dom$VirtualDom$MayPreventDefault = function (a) {
+	return {$: 'MayPreventDefault', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$preventDefaultOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayPreventDefault(decoder));
+	});
+var $elm$html$Html$Events$onSubmit = function (msg) {
+	return A2(
+		$elm$html$Html$Events$preventDefaultOn,
+		'submit',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysPreventDefault,
+			$elm$json$Json$Decode$succeed(msg)));
+};
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$html$Html$span = _VirtualDom_node('span');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
+var $author$project$Main$viewCardCvcError = function (model) {
+	return A2(
+		$elm$html$Html$p,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('error error--cvc'),
+				$elm$html$Html$Attributes$id('error--cvc')
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(model.cardCvcError)
+			]));
+};
+var $author$project$Main$CurrentCardCvcValue = function (a) {
+	return {$: 'CurrentCardCvcValue', a: a};
+};
+var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$html$Html$Attributes$name = $elm$html$Html$Attributes$stringProperty('name');
 var $elm$html$Html$Events$alwaysStop = function (x) {
 	return _Utils_Tuple2(x, true);
 };
 var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
 	return {$: 'MayStopPropagation', a: a};
 };
-var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
 var $elm$html$Html$Events$stopPropagationOn = F2(
 	function (event, decoder) {
 		return A2(
@@ -5336,165 +5344,167 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			$elm$html$Html$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
-var $elm$html$Html$Events$alwaysPreventDefault = function (msg) {
-	return _Utils_Tuple2(msg, true);
-};
-var $elm$virtual_dom$VirtualDom$MayPreventDefault = function (a) {
-	return {$: 'MayPreventDefault', a: a};
-};
-var $elm$html$Html$Events$preventDefaultOn = F2(
-	function (event, decoder) {
-		return A2(
-			$elm$virtual_dom$VirtualDom$on,
-			event,
-			$elm$virtual_dom$VirtualDom$MayPreventDefault(decoder));
-	});
-var $elm$html$Html$Events$onSubmit = function (msg) {
-	return A2(
-		$elm$html$Html$Events$preventDefaultOn,
-		'submit',
-		A2(
-			$elm$json$Json$Decode$map,
-			$elm$html$Html$Events$alwaysPreventDefault,
-			$elm$json$Json$Decode$succeed(msg)));
-};
-var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
-var $elm$html$Html$span = _VirtualDom_node('span');
-var $elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
-};
-var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
-var $author$project$Main$viewError = function (props) {
+var $author$project$Main$viewCardCvcInput = A2(
+	$elm$html$Html$input,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$type_('text'),
+			$elm$html$Html$Attributes$id('cvc'),
+			$elm$html$Html$Attributes$name('cvc'),
+			$elm$html$Html$Attributes$placeholder('123'),
+			$elm$html$Html$Events$onInput($author$project$Main$CurrentCardCvcValue)
+		]),
+	_List_Nil);
+var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
+var $elm$html$Html$label = _VirtualDom_node('label');
+var $author$project$Main$viewCardCvcLabel = A2(
+	$elm$html$Html$label,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$for('cvc')
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('cvc')
+		]));
+var $author$project$Main$viewCardNumberError = function (model) {
 	return A2(
 		$elm$html$Html$p,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$class(props._class),
-				$elm$html$Html$Attributes$id(props.id),
-				$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive(props.ariaLive)
+				$elm$html$Html$Attributes$class('error error--number'),
+				$elm$html$Html$Attributes$id('error--number')
 			]),
 		_List_fromArray(
 			[
-				$elm$html$Html$text(props.text)
+				$elm$html$Html$text(model.cardNumberError)
 			]));
 };
-var $elm$html$Html$Attributes$autocomplete = function (bool) {
+var $author$project$Main$CurrentCardNumberValue = function (a) {
+	return {$: 'CurrentCardNumberValue', a: a};
+};
+var $author$project$Main$viewCardNumberInput = A2(
+	$elm$html$Html$input,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$type_('text'),
+			$elm$html$Html$Attributes$id('number'),
+			$elm$html$Html$Attributes$name('number'),
+			$elm$html$Html$Attributes$placeholder('e.g. 1234 5678 9123 0000'),
+			$elm$html$Html$Events$onInput($author$project$Main$CurrentCardNumberValue)
+		]),
+	_List_Nil);
+var $author$project$Main$viewCardNumberLabel = A2(
+	$elm$html$Html$label,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$for('number')
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('card number')
+		]));
+var $author$project$Main$viewExpDateError = function (model) {
 	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'autocomplete',
-		bool ? 'on' : 'off');
-};
-var $author$project$Main$convertMaybeBool = function (param) {
-	if (param.$ === 'Just') {
-		return true;
-	} else {
-		return false;
-	}
-};
-var $author$project$Main$convertMaybeLength = function (param) {
-	if (param.$ === 'Just') {
-		var num = param.a;
-		return num;
-	} else {
-		return 99;
-	}
-};
-var $author$project$Main$convertMaybePattern = function (param) {
-	if (param.$ === 'Just') {
-		var str = param.a;
-		return str;
-	} else {
-		return '.*';
-	}
-};
-var $elm$html$Html$Attributes$maxlength = function (n) {
-	return A2(
-		_VirtualDom_attribute,
-		'maxlength',
-		$elm$core$String$fromInt(n));
-};
-var $elm$html$Html$Attributes$minlength = function (n) {
-	return A2(
-		_VirtualDom_attribute,
-		'minLength',
-		$elm$core$String$fromInt(n));
-};
-var $author$project$Data$nameInput = {
-	autoComplete: $elm$core$Maybe$Just(true),
-	describedby: 'error--name',
-	id: 'name',
-	maxLength: $elm$core$Maybe$Nothing,
-	minLength: $elm$core$Maybe$Just(1),
-	name: 'name',
-	pattern: $elm$core$Maybe$Nothing,
-	placeholder: 'e.g. Jane Appleseed',
-	required: true,
-	type_: 'text'
-};
-var $elm$html$Html$Attributes$pattern = $elm$html$Html$Attributes$stringProperty('pattern');
-var $elm$json$Json$Encode$bool = _Json_wrap;
-var $elm$html$Html$Attributes$boolProperty = F2(
-	function (key, bool) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$bool(bool));
-	});
-var $elm$html$Html$Attributes$required = $elm$html$Html$Attributes$boolProperty('required');
-var $author$project$Main$viewInput = function (props) {
-	return A2(
-		$elm$html$Html$input,
+		$elm$html$Html$p,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$type_(props.type_),
-				$elm$html$Html$Attributes$id(props.id),
-				$elm$html$Html$Attributes$name(props.name),
-				$elm$html$Html$Attributes$placeholder(props.placeholder),
-				$elm$html$Html$Attributes$required(props.required),
-				$elm$html$Html$Attributes$minlength(
-				$author$project$Main$convertMaybeLength($author$project$Data$nameInput.minLength)),
-				$elm$html$Html$Attributes$maxlength(
-				$author$project$Main$convertMaybeLength(props.maxLength)),
-				$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby(props.describedby),
-				$elm$html$Html$Attributes$autocomplete(
-				$author$project$Main$convertMaybeBool(props.autoComplete)),
-				$elm$html$Html$Attributes$pattern(
-				$author$project$Main$convertMaybePattern(props.pattern))
-			]),
-		_List_Nil);
-};
-var $author$project$Main$viewLabel = function (props) {
-	return A2(
-		$elm$html$Html$label,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$for(props._for)
+				$elm$html$Html$Attributes$class('error error--expiry-date'),
+				$elm$html$Html$Attributes$id('error--expiry-date')
 			]),
 		_List_fromArray(
 			[
-				$elm$html$Html$text(props.text)
+				$elm$html$Html$text(model.cardExpDateError)
 			]));
 };
-var $author$project$Main$viewLabelWithClass = function (props) {
+var $author$project$Main$CurrentExpDateMonthValue = function (a) {
+	return {$: 'CurrentExpDateMonthValue', a: a};
+};
+var $author$project$Main$viewExpDateMonthInput = A2(
+	$elm$html$Html$input,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$type_('text'),
+			$elm$html$Html$Attributes$id('month'),
+			$elm$html$Html$Attributes$name('month'),
+			$elm$html$Html$Attributes$placeholder('MM'),
+			$elm$html$Html$Events$onInput($author$project$Main$CurrentExpDateMonthValue)
+		]),
+	_List_Nil);
+var $author$project$Main$viewExpDateMonthLabel = A2(
+	$elm$html$Html$label,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$for('month'),
+			$elm$html$Html$Attributes$class('sr-only')
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('expiration date, month')
+		]));
+var $author$project$Main$CurrentExpDateYearValue = function (a) {
+	return {$: 'CurrentExpDateYearValue', a: a};
+};
+var $author$project$Main$viewExpDateYearInput = A2(
+	$elm$html$Html$input,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$type_('text'),
+			$elm$html$Html$Attributes$id('year'),
+			$elm$html$Html$Attributes$name('year'),
+			$elm$html$Html$Attributes$placeholder('YY'),
+			$elm$html$Html$Events$onInput($author$project$Main$CurrentExpDateYearValue)
+		]),
+	_List_Nil);
+var $author$project$Main$viewExpDateYearLabel = A2(
+	$elm$html$Html$label,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$for('year'),
+			$elm$html$Html$Attributes$class('sr-only')
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('expiration date, year')
+		]));
+var $author$project$Main$viewUsernameError = function (model) {
 	return A2(
-		$elm$html$Html$label,
+		$elm$html$Html$p,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$for(props._for),
-				$elm$html$Html$Attributes$class(props._class)
+				$elm$html$Html$Attributes$id('error--name'),
+				$elm$html$Html$Attributes$class('error error--name')
 			]),
 		_List_fromArray(
 			[
-				$elm$html$Html$text(props.text)
+				$elm$html$Html$text(model.usernameError)
 			]));
 };
+var $author$project$Main$CurrentUsernameValue = function (a) {
+	return {$: 'CurrentUsernameValue', a: a};
+};
+var $author$project$Main$viewUsernameInput = A2(
+	$elm$html$Html$input,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$type_('text'),
+			$elm$html$Html$Attributes$id('name'),
+			$elm$html$Html$Attributes$name('name'),
+			$elm$html$Html$Attributes$placeholder('e.g. Jane Appleseed'),
+			$elm$html$Html$Events$onInput($author$project$Main$CurrentUsernameValue)
+		]),
+	_List_Nil);
+var $author$project$Main$viewUsernameLabel = A2(
+	$elm$html$Html$label,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$for('name')
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('cardholder name')
+		]));
 var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -5627,8 +5637,6 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$form,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$action('/'),
-										$elm$html$Html$Attributes$method('get'),
 										$elm$html$Html$Events$onSubmit($author$project$Main$FormSubmission)
 									]),
 								_List_fromArray(
@@ -5645,56 +5653,29 @@ var $author$project$Main$view = function (model) {
 												$elm$html$Html$div,
 												_List_fromArray(
 													[
-														$elm$html$Html$Attributes$class('name form-group')
+														$elm$html$Html$Attributes$class('name form-group'),
+														$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--name'),
+														$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
 													]),
 												_List_fromArray(
 													[
-														A2(
-														$elm$html$Html$label,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$for('name')
-															]),
-														_List_fromArray(
-															[
-																$elm$html$Html$text('cardholder name')
-															])),
-														A2(
-														$elm$html$Html$input,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$type_('text'),
-																$elm$html$Html$Attributes$id('name'),
-																$elm$html$Html$Attributes$name('name'),
-																$elm$html$Html$Attributes$placeholder('e.g. Jane Appleseed'),
-																$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--name'),
-																$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite'),
-																$elm$html$Html$Events$onInput($author$project$Main$CurrentUsernameValue)
-															]),
-														_List_Nil),
-														A2(
-														$elm$html$Html$p,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$id('error--name'),
-																$elm$html$Html$Attributes$class('error--name')
-															]),
-														_List_fromArray(
-															[
-																$elm$html$Html$text('')
-															]))
+														$author$project$Main$viewUsernameLabel,
+														$author$project$Main$viewUsernameInput,
+														$author$project$Main$viewUsernameError(model)
 													])),
 												A2(
 												$elm$html$Html$div,
 												_List_fromArray(
 													[
-														$elm$html$Html$Attributes$class('number form-group')
+														$elm$html$Html$Attributes$class('number form-group'),
+														$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--number'),
+														$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
 													]),
 												_List_fromArray(
 													[
-														$author$project$Main$viewLabel($author$project$Data$numberLabel),
-														$author$project$Main$viewInput($author$project$Data$numberInput),
-														$author$project$Main$viewError($author$project$Data$numberError)
+														$author$project$Main$viewCardNumberLabel,
+														$author$project$Main$viewCardNumberInput,
+														$author$project$Main$viewCardNumberError(model)
 													])),
 												A2(
 												$elm$html$Html$div,
@@ -5723,7 +5704,9 @@ var $author$project$Main$view = function (model) {
 																$elm$html$Html$div,
 																_List_fromArray(
 																	[
-																		$elm$html$Html$Attributes$class('expiry-wrapper')
+																		$elm$html$Html$Attributes$class('expiry-wrapper'),
+																		$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--expiry-date'),
+																		$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
 																	]),
 																_List_fromArray(
 																	[
@@ -5734,10 +5717,7 @@ var $author$project$Main$view = function (model) {
 																				$elm$html$Html$Attributes$class('month')
 																			]),
 																		_List_fromArray(
-																			[
-																				$author$project$Main$viewLabelWithClass($author$project$Data$expiryLabelMonth),
-																				$author$project$Main$viewInput($author$project$Data$expiryInputMonth)
-																			])),
+																			[$author$project$Main$viewExpDateMonthLabel, $author$project$Main$viewExpDateMonthInput])),
 																		A2(
 																		$elm$html$Html$span,
 																		_List_fromArray(
@@ -5745,24 +5725,23 @@ var $author$project$Main$view = function (model) {
 																				$elm$html$Html$Attributes$class('year')
 																			]),
 																		_List_fromArray(
-																			[
-																				$author$project$Main$viewLabelWithClass($author$project$Data$expiryLabelYear),
-																				$author$project$Main$viewInput($author$project$Data$expiryInputYear)
-																			])),
-																		$author$project$Main$viewError($author$project$Data$expiryError)
+																			[$author$project$Main$viewExpDateYearLabel, $author$project$Main$viewExpDateYearInput])),
+																		$author$project$Main$viewExpDateError(model)
 																	]))
 															])),
 														A2(
 														$elm$html$Html$div,
 														_List_fromArray(
 															[
-																$elm$html$Html$Attributes$class('cvc form-group')
+																$elm$html$Html$Attributes$class('cvc form-group'),
+																$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--cvc'),
+																$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
 															]),
 														_List_fromArray(
 															[
-																$author$project$Main$viewLabel($author$project$Data$cvcLabel),
-																$author$project$Main$viewInput($author$project$Data$cvcInput),
-																$author$project$Main$viewError($author$project$Data$cvcError)
+																$author$project$Main$viewCardCvcLabel,
+																$author$project$Main$viewCardCvcInput,
+																$author$project$Main$viewCardCvcError(model)
 															]))
 													])),
 												A2(
