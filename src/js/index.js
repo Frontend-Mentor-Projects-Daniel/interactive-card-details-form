@@ -5743,7 +5743,7 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$div,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('card-logo')
+										$elm$html$Html$Attributes$class('card-front')
 									]),
 								_List_fromArray(
 									[
@@ -5751,67 +5751,77 @@ var $author$project$Main$view = function (model) {
 										$elm$html$Html$img,
 										_List_fromArray(
 											[
+												$elm$html$Html$Attributes$class('card-front__bg'),
+												$elm$html$Html$Attributes$src('./images/bg-card-front.png'),
+												$elm$html$Html$Attributes$alt('')
+											]),
+										_List_Nil),
+										A2(
+										$elm$html$Html$img,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('card-front__logo'),
 												$elm$html$Html$Attributes$src('./images/card-logo.svg'),
 												$elm$html$Html$Attributes$alt('')
 											]),
-										_List_Nil)
-									])),
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('back-of-card-text')
-									]),
-								_List_fromArray(
-									[
+										_List_Nil),
 										A2(
-										$elm$html$Html$p,
+										$elm$html$Html$span,
 										_List_fromArray(
 											[
-												$elm$html$Html$Attributes$class('cvc')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text('000')
-											]))
-									])),
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('front-of-card-text')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$p,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('number')
+												$elm$html$Html$Attributes$class('card-front__number')
 											]),
 										_List_fromArray(
 											[
 												$elm$html$Html$text('0000 0000 0000 0000')
 											])),
 										A2(
-										$elm$html$Html$p,
+										$elm$html$Html$span,
 										_List_fromArray(
 											[
-												$elm$html$Html$Attributes$class('name')
+												$elm$html$Html$Attributes$class('card-front__name')
 											]),
 										_List_fromArray(
 											[
 												$elm$html$Html$text('Jane Appleseed')
 											])),
 										A2(
-										$elm$html$Html$p,
+										$elm$html$Html$span,
 										_List_fromArray(
 											[
-												$elm$html$Html$Attributes$class('expiry-date')
+												$elm$html$Html$Attributes$class('card-front__expiry')
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text('00/00')
+												$elm$html$Html$text('mm / yy')
+											]))
+									])),
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('card-back')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$img,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('card-back__bg'),
+												$elm$html$Html$Attributes$src('./images/bg-card-back.png'),
+												$elm$html$Html$Attributes$alt('')
+											]),
+										_List_Nil),
+										A2(
+										$elm$html$Html$span,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('card-back__cvc')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text('123')
 											]))
 									]))
 							])),
