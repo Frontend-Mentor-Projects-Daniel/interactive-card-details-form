@@ -4,7 +4,7 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (alt, autocomplete, class, for, href, id, maxlength, minlength, name, placeholder, src, target, type_, value)
 import Html.Attributes.Aria exposing (ariaDescribedby, ariaLive)
-import Html.Events exposing (onClick, onInput, onSubmit)
+import Html.Events exposing (onInput, onSubmit)
 import Regex exposing (Regex)
 
 
@@ -27,8 +27,7 @@ subscriptions _ =
 
 
 type alias Model =
-    { userCardData : FormFormat
-    , currentUsername : String
+    { currentUsername : String
     , currentCardData : String
     , currentExpDateMonth : String
     , currentExpDateYear : String
@@ -42,29 +41,12 @@ type alias Model =
 
 
 --** TYPES
-
-
-type alias FormFormat =
-    { username : String
-    , cardNumber : String
-    , expDate : String
-    , cvc : String
-    }
-
-
-
 --** INIT
 
 
 init : () -> ( Model, Cmd msg )
 init _ =
-    ( { userCardData =
-            { username = ""
-            , cardNumber = ""
-            , expDate = ""
-            , cvc = ""
-            }
-      , currentUsername = ""
+    ( { currentUsername = ""
       , currentCardData = ""
       , currentExpDateMonth = ""
       , currentExpDateYear = ""
@@ -96,11 +78,19 @@ update msg model =
     ( case msg of
         FormSubmission ->
             -- Debug.log (Debug.toString model)
-            { model | currentUsername = "", currentCardData = "", currentExpDateMonth = "", currentExpDateYear = "", currentCvc = "" }
+            let
+                canSubmit =
+                    checkIfAnyErrors model && checkIfAnyEmptyStrings model
+            in
+            if canSubmit == True then
+                { model | currentUsername = "", currentCardData = "", currentExpDateMonth = "", currentExpDateYear = "", currentCvc = "" }
+
+            else
+                model
 
         CurrentUsernameValue username ->
             if validateUsername username == True then
-                { model | currentUsername = username, usernameError = "" }
+                { model | currentUsername = String.trimLeft username, usernameError = "" }
 
             else
                 { model | currentUsername = username, usernameError = "Name must be at least 1 character long" }
@@ -393,3 +383,29 @@ regexCvc : Regex.Regex
 regexCvc =
     Maybe.withDefault Regex.never <|
         Regex.fromString "^[0-9]{3}$"
+
+
+checkIfAnyErrors : Model -> Bool
+checkIfAnyErrors model =
+    let
+        isValid =
+            if model.usernameError == "" && model.cardNumberError == "" && model.cardExpDateError == "" && model.cardCvcError == "" then
+                True
+
+            else
+                False
+    in
+    isValid
+
+
+checkIfAnyEmptyStrings : Model -> Bool
+checkIfAnyEmptyStrings model =
+    let
+        isValid =
+            if model.currentUsername /= "" && model.currentCardData /= "" && model.currentExpDateMonth /= "" && model.currentExpDateYear /= "" && model.currentCvc /= "" then
+                True
+
+            else
+                False
+    in
+    isValid

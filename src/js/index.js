@@ -5264,18 +5264,7 @@ var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{
-			cardCvcError: '',
-			cardExpDateError: '',
-			cardNumberError: '',
-			currentCardData: '',
-			currentCvc: '',
-			currentExpDateMonth: '',
-			currentExpDateYear: '',
-			currentUsername: '',
-			userCardData: {cardNumber: '', cvc: '', expDate: '', username: ''},
-			usernameError: ''
-		},
+		{cardCvcError: '', cardExpDateError: '', cardNumberError: '', currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: '', usernameError: ''},
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5283,6 +5272,16 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
+var $elm$core$Basics$neq = _Utils_notEqual;
+var $author$project$Main$checkIfAnyEmptyStrings = function (model) {
+	var isValid = ((model.currentUsername !== '') && ((model.currentCardData !== '') && ((model.currentExpDateMonth !== '') && ((model.currentExpDateYear !== '') && (model.currentCvc !== ''))))) ? true : false;
+	return isValid;
+};
+var $author$project$Main$checkIfAnyErrors = function (model) {
+	var isValid = ((model.usernameError === '') && ((model.cardNumberError === '') && ((model.cardExpDateError === '') && (model.cardCvcError === '')))) ? true : false;
+	return isValid;
+};
+var $elm$core$String$trimLeft = _String_trimLeft;
 var $elm$regex$Regex$Match = F4(
 	function (match, index, number, submatches) {
 		return {index: index, match: match, number: number, submatches: submatches};
@@ -5338,14 +5337,18 @@ var $author$project$Main$update = F2(
 			function () {
 				switch (msg.$) {
 					case 'FormSubmission':
-						return _Utils_update(
+						var canSubmit = $author$project$Main$checkIfAnyErrors(model) && $author$project$Main$checkIfAnyEmptyStrings(model);
+						return canSubmit ? _Utils_update(
 							model,
-							{currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: ''});
+							{currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: ''}) : model;
 					case 'CurrentUsernameValue':
 						var username = msg.a;
 						return $author$project$Main$validateUsername(username) ? _Utils_update(
 							model,
-							{currentUsername: username, usernameError: ''}) : _Utils_update(
+							{
+								currentUsername: $elm$core$String$trimLeft(username),
+								usernameError: ''
+							}) : _Utils_update(
 							model,
 							{currentUsername: username, usernameError: 'Name must be at least 1 character long'});
 					case 'CurrentCardNumberValue':
