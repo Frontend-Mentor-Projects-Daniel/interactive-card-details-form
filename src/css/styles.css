@@ -160,6 +160,10 @@ input {
   border-radius: 8px;
 }
 
+span {
+  color: hsl(var(--clr-white));
+}
+
 .center {
   --measure: 1440px;
   box-sizing: content-box;
@@ -194,7 +198,6 @@ input {
 
 .wrapper {
   max-inline-size: 1200px;
-  padding-inline: 2rem;
   margin-inline: auto;
   min-block-size: 100vh;
   min-block-size: 100dvh;
@@ -209,6 +212,11 @@ input {
   }
 }
 .card-image {
+  --card-padding-block: 2rem;
+  --card-padding-inline: 2rem;
+  background-image: url("../../images/bg-main-mobile.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
 }
 .card-image .card-front,
@@ -225,35 +233,51 @@ input {
   max-width: revert;
 }
 .card-image .card-front {
-  --card-padding: 2rem;
   bottom: 0;
+  transform: translateY(50%);
   z-index: 2;
 }
 .card-image .card-front__logo {
-  top: var(--card-padding);
-  left: var(--card-padding);
+  top: var(--card-padding-block);
+  left: var(--card-padding-inline);
 }
 .card-image .card-front__number {
   top: 50%;
-  left: var(--card-padding);
-  font-size: 1.925rem;
+  left: var(--card-padding-inline);
+  font-size: 1.125rem;
 }
 .card-image .card-front__name {
-  bottom: var(--card-padding);
-  left: var(--card-padding);
+  bottom: 1rem;
+  left: var(--card-padding-inline);
+  font-size: 0.5625rem;
 }
 .card-image .card-front__expiry {
-  bottom: var(--card-padding);
-  right: var(--card-padding);
+  bottom: 1rem;
+  right: var(--card-padding-inline);
+  font-size: 0.5625rem;
 }
 .card-image .card-back {
   right: 0;
+  transform: translateY(56%);
 }
 .card-image .card-back__cvc {
   top: 44%;
   right: 3.5rem;
+  font-size: 0.5625rem;
 }
-@media (min-width: 960px) {
+@media (min-width: 23.4375rem) {
+  .card-image .card-front__bg,
+.card-image .card-back__bg {
+    width: 285px;
+  }
+}
+@media (min-width: 48rem) {
+  .card-image {
+    align-self: stretch;
+    background-image: url("../../images/bg-main-desktop.png");
+  }
+}
+@media (min-width: 60rem) {
   .card-image .card-image {
     display: grid;
     gap: 2rem;
@@ -263,8 +287,24 @@ input {
     inset: revert;
     position: relative;
   }
+  .card-image .card-front__bg,
+.card-image .card-back__bg {
+    width: 447px;
+  }
   .card-image .card-back {
     margin-left: auto;
+  }
+  .card-image .card-front__number {
+    font-size: 1.75rem;
+  }
+  .card-image .card-front__name {
+    font-size: 0.875rem;
+  }
+  .card-image .card-front__expiry {
+    font-size: 0.875rem;
+  }
+  .card-image .card-back__cvc {
+    font-size: 0.875rem;
   }
 }
 

@@ -1,10 +1,18 @@
 .card-image {
+  --card-padding-block: 2rem;
+  --card-padding-inline: 2rem;
+
+  background-image: url('../../images/bg-main-mobile.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  // padding-inline: 2rem;
   position: relative;
 
   // applicable to both the front and back cards
   .card-front,
   .card-back {
     position: absolute;
+    // position: relative;
     width: min-content;
   }
 
@@ -21,50 +29,77 @@
 
   // front of card
   .card-front {
-    --card-padding: 2rem;
-
     bottom: 0;
 
+    transform: translateY(50%);
     z-index: 2;
   }
 
   .card-front__logo {
-    top: var(--card-padding);
-    left: var(--card-padding);
+    top: var(--card-padding-block);
+    left: var(--card-padding-inline);
   }
 
   .card-front__number {
     top: 50%;
-    left: var(--card-padding);
+    left: var(--card-padding-inline);
 
-    font-size: 1.925rem;
+    font-size: 1.125rem;
   }
 
   .card-front__name {
-    bottom: var(--card-padding);
-    left: var(--card-padding);
+    bottom: 1rem;
+    left: var(--card-padding-inline);
+
+    font-size: 0.5625rem;
   }
 
   .card-front__expiry {
-    bottom: var(--card-padding);
-    right: var(--card-padding);
+    bottom: 1rem;
+    right: var(--card-padding-inline);
+
+    font-size: 0.5625rem;
   }
 
   // back of card
   .card-back {
     right: 0;
-  }
 
-  .card-back__bg {
+    transform: translateY(56%);
   }
 
   .card-back__cvc {
     top: 44%;
     right: 3.5rem;
+
+    font-size: 0.5625rem;
   }
 
-  // tablet and larger sizes
-  @media (min-width: 960px) {
+  // The cards take their intrinsic size and cause overflows, in order to fix this, they need to have different widths at different view ports and the font-sizes of the text within them need to match
+  @media (min-width: 23.4375rem) {
+    .card-front__bg,
+    .card-back__bg {
+      width: 285px;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    align-self: stretch;
+
+    background-image: url('../../images/bg-main-desktop.png');
+
+    .card-front {
+      // transform: translateY(50%);
+    }
+
+    // .card-front__bg,
+    // .card-back__bg {
+    //   width: 447px;
+    // }
+  }
+
+  // desktop layout
+  @media (min-width: 60rem) {
     .card-image {
       display: grid;
       gap: 2rem;
@@ -76,8 +111,29 @@
       position: relative;
     }
 
+    .card-front__bg,
+    .card-back__bg {
+      width: 447px;
+    }
+
     .card-back {
       margin-left: auto;
+    }
+
+    .card-front__number {
+      font-size: 1.75rem;
+    }
+
+    .card-front__name {
+      font-size: 0.875rem;
+    }
+
+    .card-front__expiry {
+      font-size: 0.875rem;
+    }
+
+    .card-back__cvc {
+      font-size: 0.875rem;
     }
   }
 }

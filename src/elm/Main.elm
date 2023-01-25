@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (alt, autocomplete, class, for, href, id, maxlength, minlength, name, placeholder, src, target, type_, value)
+import Html.Attributes exposing (alt, autocomplete, class, for, href, id, maxlength, minlength, name, placeholder, src, target, type_, value, width)
 import Html.Attributes.Aria exposing (ariaDescribedby, ariaLive)
 import Html.Events exposing (onInput, onSubmit)
 import Regex exposing (Regex)
@@ -143,14 +143,15 @@ view model =
             -- .card-previews
             [ div [ class "card card-image" ]
                 [ div [ class "card-front" ]
-                    [ img [ class "card-front__bg", src "./images/bg-card-front.png", alt "" ] []
-                    , img [ class "card-front__logo", src "./images/card-logo.svg", alt "" ] []
+                    [ img [ class "card-front__bg", src "./images/bg-card-front.png", alt "", width 250 ] []
+
+                    -- , img [ class "card-front__logo", src "./images/card-logo.svg", alt "" ] []
                     , span [ class "card-front__number" ] [ text "0000 0000 0000 0000" ]
                     , span [ class "card-front__name" ] [ text "Jane Appleseed" ]
                     , span [ class "card-front__expiry" ] [ text "mm / yy" ]
                     ]
                 , div [ class "card-back" ]
-                    [ img [ class "card-back__bg", src "./images/bg-card-back.png", alt "" ] []
+                    [ img [ class "card-back__bg", src "./images/bg-card-back.png", alt "", width 250 ] []
                     , span [ class "card-back__cvc" ] [ text "123" ]
                     ]
                 ]
