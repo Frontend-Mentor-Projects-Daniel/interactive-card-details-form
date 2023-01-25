@@ -32,9 +32,14 @@
     }
 
     .expiry-wrapper {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 9px;
       max-inline-size: 170px;
+    }
+
+    .error--expiry-date {
+      grid-column: 1/-1;
     }
   }
 

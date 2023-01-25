@@ -381,9 +381,13 @@ input {
   text-transform: uppercase;
 }
 .card-form .fieldset--expiry-date .expiry-wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 9px;
   max-inline-size: 170px;
+}
+.card-form .fieldset--expiry-date .error--expiry-date {
+  grid-column: 1/-1;
 }
 .card-form button {
   margin-block-start: 30px;

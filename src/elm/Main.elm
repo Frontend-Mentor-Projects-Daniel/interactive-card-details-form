@@ -2,9 +2,10 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (alt, autocomplete, class, for, href, id, name, placeholder, src, target, type_)
+import Html.Attributes exposing (alt, autocomplete, class, for, href, id, maxlength, minlength, name, placeholder, src, target, type_, value)
 import Html.Attributes.Aria exposing (ariaDescribedby, ariaLive)
 import Html.Events exposing (onClick, onInput, onSubmit)
+import Regex exposing (Regex)
 
 
 main : Program () Model Msg
@@ -28,6 +29,10 @@ subscriptions _ =
 type alias Model =
     { userCardData : FormFormat
     , currentUsername : String
+    , currentCardData : String
+    , currentExpDateMonth : String
+    , currentExpDateYear : String
+    , currentCvc : String
     , usernameError : String
     , cardNumberError : String
     , cardExpDateError : String
@@ -42,8 +47,8 @@ type alias Model =
 type alias FormFormat =
     { username : String
     , cardNumber : String
-    , expDate : Int
-    , cvc : Int
+    , expDate : String
+    , cvc : String
     }
 
 
@@ -56,10 +61,14 @@ init _ =
     ( { userCardData =
             { username = ""
             , cardNumber = ""
-            , expDate = 0
-            , cvc = 0
+            , expDate = ""
+            , cvc = ""
             }
       , currentUsername = ""
+      , currentCardData = ""
+      , currentExpDateMonth = ""
+      , currentExpDateYear = ""
+      , currentCvc = ""
       , usernameError = ""
       , cardNumberError = ""
       , cardExpDateError = ""
@@ -86,8 +95,8 @@ update : Msg -> Model -> ( Model, Cmd msg )
 update msg model =
     ( case msg of
         FormSubmission ->
-            Debug.log (Debug.toString model)
-                model
+            -- Debug.log (Debug.toString model)
+            { model | currentUsername = "", currentCardData = "", currentExpDateMonth = "", currentExpDateYear = "", currentCvc = "" }
 
         CurrentUsernameValue username ->
             if validateUsername username == True then
@@ -97,16 +106,32 @@ update msg model =
                 { model | currentUsername = username, usernameError = "Name must be at least 1 character long" }
 
         CurrentCardNumberValue cardNumber ->
-            model
+            if validateCardNumber cardNumber == True then
+                { model | currentCardData = cardNumber, cardNumberError = "" }
+
+            else
+                { model | currentCardData = cardNumber, cardNumberError = "Wrong format, it should resemble: xxxx xxxx xxxx xxxx" }
 
         CurrentExpDateMonthValue expDate ->
-            model
+            if validateExpDate expDate == True then
+                { model | currentExpDateMonth = expDate, cardExpDateError = "" }
+
+            else
+                { model | currentExpDateMonth = expDate, cardExpDateError = "Must be in the format of 01 - 12" }
 
         CurrentExpDateYearValue expDate ->
-            model
+            if validateExpDate expDate == True then
+                { model | currentExpDateYear = expDate, cardExpDateError = "" }
 
-        CurrentCardCvcValue expDate ->
-            model
+            else
+                { model | currentExpDateYear = expDate, cardExpDateError = "Must be in the format of 01 - 12" }
+
+        CurrentCardCvcValue cvc ->
+            if validateCvc cvc == True then
+                { model | currentCvc = cvc, cardCvcError = "" }
+
+            else
+                { model | currentCvc = cvc, cardCvcError = "Must contain 3 numbers" }
     , Cmd.none
     )
 
@@ -139,12 +164,12 @@ view model =
                     [ fieldset [ class "fieldset--main" ]
                         [ div [ class "name form-group", ariaDescribedby "error--name", ariaLive "polite" ]
                             [ viewUsernameLabel
-                            , viewUsernameInput
+                            , viewUsernameInput model
                             , viewUsernameError model
                             ]
                         , div [ class "number form-group", ariaDescribedby "error--number", ariaLive "polite" ]
                             [ viewCardNumberLabel
-                            , viewCardNumberInput
+                            , viewCardNumberInput model
                             , viewCardNumberError model
                             ]
                         , div [ class "form-group double-group" ]
@@ -153,18 +178,18 @@ view model =
                                 , div [ class "expiry-wrapper", ariaDescribedby "error--expiry-date", ariaLive "polite" ]
                                     [ span [ class "month" ]
                                         [ viewExpDateMonthLabel
-                                        , viewExpDateMonthInput
+                                        , viewExpDateMonthInput model
                                         ]
                                     , span [ class "year" ]
                                         [ viewExpDateYearLabel
-                                        , viewExpDateYearInput
+                                        , viewExpDateYearInput model
                                         ]
                                     , viewExpDateError model
                                     ]
                                 ]
                             , div [ class "cvc form-group", ariaDescribedby "error--cvc", ariaLive "polite" ]
                                 [ viewCardCvcLabel
-                                , viewCardCvcInput
+                                , viewCardCvcInput model
                                 , viewCardCvcError model
                                 ]
                             ]
@@ -187,7 +212,7 @@ view model =
 
 --** VIEW FUNCTIONS
 --^ CREATE FORM CONTROLS
--- username input
+--? username input
 
 
 viewUsernameLabel : Html msg
@@ -195,9 +220,17 @@ viewUsernameLabel =
     label [ for "name" ] [ text "cardholder name" ]
 
 
-viewUsernameInput : Html Msg
-viewUsernameInput =
-    input [ type_ "text", id "name", name "name", placeholder "e.g. Jane Appleseed", onInput CurrentUsernameValue ] []
+viewUsernameInput : Model -> Html Msg
+viewUsernameInput model =
+    input
+        [ type_ "text"
+        , id "name"
+        , name "name"
+        , placeholder "e.g. Jane Appleseed"
+        , onInput CurrentUsernameValue
+        , value model.currentUsername
+        ]
+        []
 
 
 viewUsernameError : Model -> Html msg
@@ -206,7 +239,7 @@ viewUsernameError model =
 
 
 
--- card number input
+--? card number input
 
 
 viewCardNumberLabel : Html msg
@@ -214,14 +247,16 @@ viewCardNumberLabel =
     label [ for "number" ] [ text "card number" ]
 
 
-viewCardNumberInput : Html Msg
-viewCardNumberInput =
+viewCardNumberInput : Model -> Html Msg
+viewCardNumberInput model =
     input
         [ type_ "text"
         , id "number"
         , name "number"
         , placeholder "e.g. 1234 5678 9123 0000"
+        , maxlength 19
         , onInput CurrentCardNumberValue
+        , value model.currentCardData
         ]
         []
 
@@ -232,7 +267,7 @@ viewCardNumberError model =
 
 
 
--- exp date input
+--? exp date input
 
 
 viewExpDateMonthLabel : Html msg
@@ -240,13 +275,15 @@ viewExpDateMonthLabel =
     label [ for "month", class "sr-only" ] [ text "expiration date, month" ]
 
 
-viewExpDateMonthInput : Html Msg
-viewExpDateMonthInput =
+viewExpDateMonthInput : Model -> Html Msg
+viewExpDateMonthInput model =
     input
         [ type_ "text"
         , id "month"
         , name "month"
         , placeholder "MM"
+        , maxlength 2
+        , value model.currentExpDateMonth
         , onInput CurrentExpDateMonthValue
         ]
         []
@@ -257,13 +294,15 @@ viewExpDateYearLabel =
     label [ for "year", class "sr-only" ] [ text "expiration date, year" ]
 
 
-viewExpDateYearInput : Html Msg
-viewExpDateYearInput =
+viewExpDateYearInput : Model -> Html Msg
+viewExpDateYearInput model =
     input
         [ type_ "text"
         , id "year"
         , name "year"
         , placeholder "YY"
+        , maxlength 2
+        , value model.currentExpDateYear
         , onInput CurrentExpDateYearValue
         ]
         []
@@ -275,7 +314,7 @@ viewExpDateError model =
 
 
 
--- cvc input
+--? cvc input
 
 
 viewCardCvcLabel : Html msg
@@ -283,13 +322,15 @@ viewCardCvcLabel =
     label [ for "cvc" ] [ text "cvc" ]
 
 
-viewCardCvcInput : Html Msg
-viewCardCvcInput =
+viewCardCvcInput : Model -> Html Msg
+viewCardCvcInput model =
     input
         [ type_ "text"
         , id "cvc"
         , name "cvc"
         , placeholder "123"
+        , maxlength 3
+        , value model.currentCvc
         , onInput CurrentCardCvcValue
         ]
         []
@@ -317,5 +358,38 @@ validateUsername username =
     tooShort
 
 
+validateCardNumber : String -> Bool
+validateCardNumber cardNumber =
+    Regex.contains regexCardNumber cardNumber
+
+
+validateExpDate : String -> Bool
+validateExpDate expDate =
+    Regex.contains regexExpDate expDate
+
+
+validateCvc : String -> Bool
+validateCvc cvc =
+    Regex.contains regexCvc cvc
+
+
 
 --** HELPER FUNCTIONS
+
+
+regexCardNumber : Regex.Regex
+regexCardNumber =
+    Maybe.withDefault Regex.never <|
+        Regex.fromString "^[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}$"
+
+
+regexExpDate : Regex.Regex
+regexExpDate =
+    Maybe.withDefault Regex.never <|
+        Regex.fromString "^[0-9]{2}$"
+
+
+regexCvc : Regex.Regex
+regexCvc =
+    Maybe.withDefault Regex.never <|
+        Regex.fromString "^[0-9]{3}$"

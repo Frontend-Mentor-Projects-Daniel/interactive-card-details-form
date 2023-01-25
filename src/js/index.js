@@ -4370,6 +4370,107 @@ function _Browser_load(url)
 		}
 	}));
 }
+
+
+// CREATE
+
+var _Regex_never = /.^/;
+
+var _Regex_fromStringWith = F2(function(options, string)
+{
+	var flags = 'g';
+	if (options.multiline) { flags += 'm'; }
+	if (options.caseInsensitive) { flags += 'i'; }
+
+	try
+	{
+		return $elm$core$Maybe$Just(new RegExp(string, flags));
+	}
+	catch(error)
+	{
+		return $elm$core$Maybe$Nothing;
+	}
+});
+
+
+// USE
+
+var _Regex_contains = F2(function(re, string)
+{
+	return string.match(re) !== null;
+});
+
+
+var _Regex_findAtMost = F3(function(n, re, str)
+{
+	var out = [];
+	var number = 0;
+	var string = str;
+	var lastIndex = re.lastIndex;
+	var prevLastIndex = -1;
+	var result;
+	while (number++ < n && (result = re.exec(string)))
+	{
+		if (prevLastIndex == re.lastIndex) break;
+		var i = result.length - 1;
+		var subs = new Array(i);
+		while (i > 0)
+		{
+			var submatch = result[i];
+			subs[--i] = submatch
+				? $elm$core$Maybe$Just(submatch)
+				: $elm$core$Maybe$Nothing;
+		}
+		out.push(A4($elm$regex$Regex$Match, result[0], result.index, number, _List_fromArray(subs)));
+		prevLastIndex = re.lastIndex;
+	}
+	re.lastIndex = lastIndex;
+	return _List_fromArray(out);
+});
+
+
+var _Regex_replaceAtMost = F4(function(n, re, replacer, string)
+{
+	var count = 0;
+	function jsReplacer(match)
+	{
+		if (count++ >= n)
+		{
+			return match;
+		}
+		var i = arguments.length - 3;
+		var submatches = new Array(i);
+		while (i > 0)
+		{
+			var submatch = arguments[i];
+			submatches[--i] = submatch
+				? $elm$core$Maybe$Just(submatch)
+				: $elm$core$Maybe$Nothing;
+		}
+		return replacer(A4($elm$regex$Regex$Match, match, arguments[arguments.length - 2], count, _List_fromArray(submatches)));
+	}
+	return string.replace(re, jsReplacer);
+});
+
+var _Regex_splitAtMost = F3(function(n, re, str)
+{
+	var string = str;
+	var out = [];
+	var start = re.lastIndex;
+	var restoreLastIndex = re.lastIndex;
+	while (n--)
+	{
+		var result = re.exec(string);
+		if (!result) break;
+		out.push(string.slice(start, result.index));
+		start = re.lastIndex;
+	}
+	out.push(string.slice(start));
+	re.lastIndex = restoreLastIndex;
+	return _List_fromArray(out);
+});
+
+var _Regex_infinity = Infinity;
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -5167,8 +5268,12 @@ var $author$project$Main$init = function (_v0) {
 			cardCvcError: '',
 			cardExpDateError: '',
 			cardNumberError: '',
+			currentCardData: '',
+			currentCvc: '',
+			currentExpDateMonth: '',
+			currentExpDateYear: '',
 			currentUsername: '',
-			userCardData: {cardNumber: '', cvc: 0, expDate: 0, username: ''},
+			userCardData: {cardNumber: '', cvc: '', expDate: '', username: ''},
 			usernameError: ''
 		},
 		$elm$core$Platform$Cmd$none);
@@ -5178,8 +5283,49 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
-var $elm$core$Debug$log = _Debug_log;
-var $elm$core$Debug$toString = _Debug_toString;
+var $elm$regex$Regex$Match = F4(
+	function (match, index, number, submatches) {
+		return {index: index, match: match, number: number, submatches: submatches};
+	});
+var $elm$regex$Regex$contains = _Regex_contains;
+var $elm$regex$Regex$fromStringWith = _Regex_fromStringWith;
+var $elm$regex$Regex$fromString = function (string) {
+	return A2(
+		$elm$regex$Regex$fromStringWith,
+		{caseInsensitive: false, multiline: false},
+		string);
+};
+var $elm$regex$Regex$never = _Regex_never;
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var $author$project$Main$regexCardNumber = A2(
+	$elm$core$Maybe$withDefault,
+	$elm$regex$Regex$never,
+	$elm$regex$Regex$fromString('^[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}$'));
+var $author$project$Main$validateCardNumber = function (cardNumber) {
+	return A2($elm$regex$Regex$contains, $author$project$Main$regexCardNumber, cardNumber);
+};
+var $author$project$Main$regexCvc = A2(
+	$elm$core$Maybe$withDefault,
+	$elm$regex$Regex$never,
+	$elm$regex$Regex$fromString('^[0-9]{3}$'));
+var $author$project$Main$validateCvc = function (cvc) {
+	return A2($elm$regex$Regex$contains, $author$project$Main$regexCvc, cvc);
+};
+var $author$project$Main$regexExpDate = A2(
+	$elm$core$Maybe$withDefault,
+	$elm$regex$Regex$never,
+	$elm$regex$Regex$fromString('^[0-9]{2}$'));
+var $author$project$Main$validateExpDate = function (expDate) {
+	return A2($elm$regex$Regex$contains, $author$project$Main$regexExpDate, expDate);
+};
 var $elm$core$String$trim = _String_trim;
 var $author$project$Main$validateUsername = function (username) {
 	var tooShort = ($elm$core$String$length(
@@ -5192,10 +5338,9 @@ var $author$project$Main$update = F2(
 			function () {
 				switch (msg.$) {
 					case 'FormSubmission':
-						return A2(
-							$elm$core$Debug$log,
-							$elm$core$Debug$toString(model),
-							model);
+						return _Utils_update(
+							model,
+							{currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: ''});
 					case 'CurrentUsernameValue':
 						var username = msg.a;
 						return $author$project$Main$validateUsername(username) ? _Utils_update(
@@ -5205,16 +5350,32 @@ var $author$project$Main$update = F2(
 							{currentUsername: username, usernameError: 'Name must be at least 1 character long'});
 					case 'CurrentCardNumberValue':
 						var cardNumber = msg.a;
-						return model;
+						return $author$project$Main$validateCardNumber(cardNumber) ? _Utils_update(
+							model,
+							{cardNumberError: '', currentCardData: cardNumber}) : _Utils_update(
+							model,
+							{cardNumberError: 'Wrong format, it should resemble: xxxx xxxx xxxx xxxx', currentCardData: cardNumber});
 					case 'CurrentExpDateMonthValue':
 						var expDate = msg.a;
-						return model;
+						return $author$project$Main$validateExpDate(expDate) ? _Utils_update(
+							model,
+							{cardExpDateError: '', currentExpDateMonth: expDate}) : _Utils_update(
+							model,
+							{cardExpDateError: 'Must be in the format of 01 - 12', currentExpDateMonth: expDate});
 					case 'CurrentExpDateYearValue':
 						var expDate = msg.a;
-						return model;
+						return $author$project$Main$validateExpDate(expDate) ? _Utils_update(
+							model,
+							{cardExpDateError: '', currentExpDateYear: expDate}) : _Utils_update(
+							model,
+							{cardExpDateError: 'Must be in the format of 01 - 12', currentExpDateYear: expDate});
 					default:
-						var expDate = msg.a;
-						return model;
+						var cvc = msg.a;
+						return $author$project$Main$validateCvc(cvc) ? _Utils_update(
+							model,
+							{cardCvcError: '', currentCvc: cvc}) : _Utils_update(
+							model,
+							{cardCvcError: 'Must contain 3 numbers', currentCvc: cvc});
 				}
 			}(),
 			$elm$core$Platform$Cmd$none);
@@ -5310,6 +5471,12 @@ var $author$project$Main$CurrentCardCvcValue = function (a) {
 	return {$: 'CurrentCardCvcValue', a: a};
 };
 var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$html$Html$Attributes$maxlength = function (n) {
+	return A2(
+		_VirtualDom_attribute,
+		'maxlength',
+		$elm$core$String$fromInt(n));
+};
 var $elm$html$Html$Attributes$name = $elm$html$Html$Attributes$stringProperty('name');
 var $elm$html$Html$Events$alwaysStop = function (x) {
 	return _Utils_Tuple2(x, true);
@@ -5345,17 +5512,22 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
 var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
-var $author$project$Main$viewCardCvcInput = A2(
-	$elm$html$Html$input,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$type_('text'),
-			$elm$html$Html$Attributes$id('cvc'),
-			$elm$html$Html$Attributes$name('cvc'),
-			$elm$html$Html$Attributes$placeholder('123'),
-			$elm$html$Html$Events$onInput($author$project$Main$CurrentCardCvcValue)
-		]),
-	_List_Nil);
+var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
+var $author$project$Main$viewCardCvcInput = function (model) {
+	return A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$type_('text'),
+				$elm$html$Html$Attributes$id('cvc'),
+				$elm$html$Html$Attributes$name('cvc'),
+				$elm$html$Html$Attributes$placeholder('123'),
+				$elm$html$Html$Attributes$maxlength(3),
+				$elm$html$Html$Attributes$value(model.currentCvc),
+				$elm$html$Html$Events$onInput($author$project$Main$CurrentCardCvcValue)
+			]),
+		_List_Nil);
+};
 var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
 var $elm$html$Html$label = _VirtualDom_node('label');
 var $author$project$Main$viewCardCvcLabel = A2(
@@ -5384,17 +5556,21 @@ var $author$project$Main$viewCardNumberError = function (model) {
 var $author$project$Main$CurrentCardNumberValue = function (a) {
 	return {$: 'CurrentCardNumberValue', a: a};
 };
-var $author$project$Main$viewCardNumberInput = A2(
-	$elm$html$Html$input,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$type_('text'),
-			$elm$html$Html$Attributes$id('number'),
-			$elm$html$Html$Attributes$name('number'),
-			$elm$html$Html$Attributes$placeholder('e.g. 1234 5678 9123 0000'),
-			$elm$html$Html$Events$onInput($author$project$Main$CurrentCardNumberValue)
-		]),
-	_List_Nil);
+var $author$project$Main$viewCardNumberInput = function (model) {
+	return A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$type_('text'),
+				$elm$html$Html$Attributes$id('number'),
+				$elm$html$Html$Attributes$name('number'),
+				$elm$html$Html$Attributes$placeholder('e.g. 1234 5678 9123 0000'),
+				$elm$html$Html$Attributes$maxlength(19),
+				$elm$html$Html$Events$onInput($author$project$Main$CurrentCardNumberValue),
+				$elm$html$Html$Attributes$value(model.currentCardData)
+			]),
+		_List_Nil);
+};
 var $author$project$Main$viewCardNumberLabel = A2(
 	$elm$html$Html$label,
 	_List_fromArray(
@@ -5421,17 +5597,21 @@ var $author$project$Main$viewExpDateError = function (model) {
 var $author$project$Main$CurrentExpDateMonthValue = function (a) {
 	return {$: 'CurrentExpDateMonthValue', a: a};
 };
-var $author$project$Main$viewExpDateMonthInput = A2(
-	$elm$html$Html$input,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$type_('text'),
-			$elm$html$Html$Attributes$id('month'),
-			$elm$html$Html$Attributes$name('month'),
-			$elm$html$Html$Attributes$placeholder('MM'),
-			$elm$html$Html$Events$onInput($author$project$Main$CurrentExpDateMonthValue)
-		]),
-	_List_Nil);
+var $author$project$Main$viewExpDateMonthInput = function (model) {
+	return A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$type_('text'),
+				$elm$html$Html$Attributes$id('month'),
+				$elm$html$Html$Attributes$name('month'),
+				$elm$html$Html$Attributes$placeholder('MM'),
+				$elm$html$Html$Attributes$maxlength(2),
+				$elm$html$Html$Attributes$value(model.currentExpDateMonth),
+				$elm$html$Html$Events$onInput($author$project$Main$CurrentExpDateMonthValue)
+			]),
+		_List_Nil);
+};
 var $author$project$Main$viewExpDateMonthLabel = A2(
 	$elm$html$Html$label,
 	_List_fromArray(
@@ -5446,17 +5626,21 @@ var $author$project$Main$viewExpDateMonthLabel = A2(
 var $author$project$Main$CurrentExpDateYearValue = function (a) {
 	return {$: 'CurrentExpDateYearValue', a: a};
 };
-var $author$project$Main$viewExpDateYearInput = A2(
-	$elm$html$Html$input,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$type_('text'),
-			$elm$html$Html$Attributes$id('year'),
-			$elm$html$Html$Attributes$name('year'),
-			$elm$html$Html$Attributes$placeholder('YY'),
-			$elm$html$Html$Events$onInput($author$project$Main$CurrentExpDateYearValue)
-		]),
-	_List_Nil);
+var $author$project$Main$viewExpDateYearInput = function (model) {
+	return A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$type_('text'),
+				$elm$html$Html$Attributes$id('year'),
+				$elm$html$Html$Attributes$name('year'),
+				$elm$html$Html$Attributes$placeholder('YY'),
+				$elm$html$Html$Attributes$maxlength(2),
+				$elm$html$Html$Attributes$value(model.currentExpDateYear),
+				$elm$html$Html$Events$onInput($author$project$Main$CurrentExpDateYearValue)
+			]),
+		_List_Nil);
+};
 var $author$project$Main$viewExpDateYearLabel = A2(
 	$elm$html$Html$label,
 	_List_fromArray(
@@ -5484,17 +5668,20 @@ var $author$project$Main$viewUsernameError = function (model) {
 var $author$project$Main$CurrentUsernameValue = function (a) {
 	return {$: 'CurrentUsernameValue', a: a};
 };
-var $author$project$Main$viewUsernameInput = A2(
-	$elm$html$Html$input,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$type_('text'),
-			$elm$html$Html$Attributes$id('name'),
-			$elm$html$Html$Attributes$name('name'),
-			$elm$html$Html$Attributes$placeholder('e.g. Jane Appleseed'),
-			$elm$html$Html$Events$onInput($author$project$Main$CurrentUsernameValue)
-		]),
-	_List_Nil);
+var $author$project$Main$viewUsernameInput = function (model) {
+	return A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$type_('text'),
+				$elm$html$Html$Attributes$id('name'),
+				$elm$html$Html$Attributes$name('name'),
+				$elm$html$Html$Attributes$placeholder('e.g. Jane Appleseed'),
+				$elm$html$Html$Events$onInput($author$project$Main$CurrentUsernameValue),
+				$elm$html$Html$Attributes$value(model.currentUsername)
+			]),
+		_List_Nil);
+};
 var $author$project$Main$viewUsernameLabel = A2(
 	$elm$html$Html$label,
 	_List_fromArray(
@@ -5660,7 +5847,7 @@ var $author$project$Main$view = function (model) {
 												_List_fromArray(
 													[
 														$author$project$Main$viewUsernameLabel,
-														$author$project$Main$viewUsernameInput,
+														$author$project$Main$viewUsernameInput(model),
 														$author$project$Main$viewUsernameError(model)
 													])),
 												A2(
@@ -5674,7 +5861,7 @@ var $author$project$Main$view = function (model) {
 												_List_fromArray(
 													[
 														$author$project$Main$viewCardNumberLabel,
-														$author$project$Main$viewCardNumberInput,
+														$author$project$Main$viewCardNumberInput(model),
 														$author$project$Main$viewCardNumberError(model)
 													])),
 												A2(
@@ -5717,7 +5904,10 @@ var $author$project$Main$view = function (model) {
 																				$elm$html$Html$Attributes$class('month')
 																			]),
 																		_List_fromArray(
-																			[$author$project$Main$viewExpDateMonthLabel, $author$project$Main$viewExpDateMonthInput])),
+																			[
+																				$author$project$Main$viewExpDateMonthLabel,
+																				$author$project$Main$viewExpDateMonthInput(model)
+																			])),
 																		A2(
 																		$elm$html$Html$span,
 																		_List_fromArray(
@@ -5725,7 +5915,10 @@ var $author$project$Main$view = function (model) {
 																				$elm$html$Html$Attributes$class('year')
 																			]),
 																		_List_fromArray(
-																			[$author$project$Main$viewExpDateYearLabel, $author$project$Main$viewExpDateYearInput])),
+																			[
+																				$author$project$Main$viewExpDateYearLabel,
+																				$author$project$Main$viewExpDateYearInput(model)
+																			])),
 																		$author$project$Main$viewExpDateError(model)
 																	]))
 															])),
@@ -5740,7 +5933,7 @@ var $author$project$Main$view = function (model) {
 														_List_fromArray(
 															[
 																$author$project$Main$viewCardCvcLabel,
-																$author$project$Main$viewCardCvcInput,
+																$author$project$Main$viewCardCvcInput(model),
 																$author$project$Main$viewCardCvcError(model)
 															]))
 													])),
