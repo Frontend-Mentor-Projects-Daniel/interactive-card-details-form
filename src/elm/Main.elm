@@ -1,4 +1,4 @@
-module Main exposing (main)
+module Main exposing (Model, Msg, main)
 
 import Browser
 import Html exposing (..)
@@ -36,11 +36,20 @@ type alias Model =
     , cardNumberError : String
     , cardExpDateError : String
     , cardCvcError : String
+    , page : Page
     }
 
 
 
 --** TYPES
+
+
+type Page
+    = MainForm
+    | ThankYouPage
+
+
+
 --** INIT
 
 
@@ -55,6 +64,7 @@ init _ =
       , cardNumberError = ""
       , cardExpDateError = ""
       , cardCvcError = ""
+      , page = ThankYouPage
       }
     , Cmd.none
     )
@@ -144,55 +154,22 @@ view model =
             [ div [ class "card card-image" ]
                 [ div [ class "card-front" ]
                     [ img [ class "card-front__bg", src "./images/bg-card-front.png", alt "", width 250 ] []
-
-                    -- , img [ class "card-front__logo", src "./images/card-logo.svg", alt "" ] []
+                    , img [ class "card-front__logo", src "./images/card-logo.svg", alt "" ] []
                     , span [ class "card-front__number" ] [ text "0000 0000 0000 0000" ]
                     , span [ class "card-front__name" ] [ text "Jane Appleseed" ]
-                    , span [ class "card-front__expiry" ] [ text "mm / yy" ]
+                    , span [ class "card-front__expiry" ] [ text "00 / 00" ]
                     ]
                 , div [ class "card-back" ]
                     [ img [ class "card-back__bg", src "./images/bg-card-back.png", alt "", width 250 ] []
                     , span [ class "card-back__cvc" ] [ text "123" ]
                     ]
                 ]
-            , div [ class "card card-form" ]
-                [ form [ onSubmit FormSubmission ]
-                    [ fieldset [ class "fieldset--main" ]
-                        [ div [ class "name form-group", ariaDescribedby "error--name", ariaLive "polite" ]
-                            [ viewUsernameLabel
-                            , viewUsernameInput model
-                            , viewUsernameError model
-                            ]
-                        , div [ class "number form-group", ariaDescribedby "error--number", ariaLive "polite" ]
-                            [ viewCardNumberLabel
-                            , viewCardNumberInput model
-                            , viewCardNumberError model
-                            ]
-                        , div [ class "form-group double-group" ]
-                            [ fieldset [ class "fieldset--expiry-date" ]
-                                [ legend [] [ text "exp.date (mm/yy)" ]
-                                , div [ class "expiry-wrapper", ariaDescribedby "error--expiry-date", ariaLive "polite" ]
-                                    [ span [ class "month" ]
-                                        [ viewExpDateMonthLabel
-                                        , viewExpDateMonthInput model
-                                        ]
-                                    , span [ class "year" ]
-                                        [ viewExpDateYearLabel
-                                        , viewExpDateYearInput model
-                                        ]
-                                    , viewExpDateError model
-                                    ]
-                                ]
-                            , div [ class "cvc form-group", ariaDescribedby "error--cvc", ariaLive "polite" ]
-                                [ viewCardCvcLabel
-                                , viewCardCvcInput model
-                                , viewCardCvcError model
-                                ]
-                            ]
-                        , button [ type_ "submit" ] [ text "Confirm" ]
-                        ]
-                    ]
-                ]
+            , case model.page of
+                MainForm ->
+                    viewMainForm model
+
+                ThankYouPage ->
+                    viewThankYouPage model
             ]
         , footer [ class "attribution" ]
             [ p []
@@ -207,6 +184,68 @@ view model =
 
 
 --** VIEW FUNCTIONS
+--& MAIN FORM
+
+
+viewMainForm : Model -> Html Msg
+viewMainForm model =
+    div [ class "card card-form" ]
+        [ form [ onSubmit FormSubmission ]
+            [ fieldset [ class "fieldset--main" ]
+                [ div [ class "name form-group", ariaDescribedby "error--name", ariaLive "polite" ]
+                    [ viewUsernameLabel
+                    , viewUsernameInput model
+                    , viewUsernameError model
+                    ]
+                , div [ class "number form-group", ariaDescribedby "error--number", ariaLive "polite" ]
+                    [ viewCardNumberLabel
+                    , viewCardNumberInput model
+                    , viewCardNumberError model
+                    ]
+                , div [ class "form-group double-group" ]
+                    [ fieldset [ class "fieldset--expiry-date" ]
+                        [ legend [] [ text "exp.date (mm/yy)" ]
+                        , div [ class "expiry-wrapper", ariaDescribedby "error--expiry-date", ariaLive "polite" ]
+                            [ span [ class "month" ]
+                                [ viewExpDateMonthLabel
+                                , viewExpDateMonthInput model
+                                ]
+                            , span [ class "year" ]
+                                [ viewExpDateYearLabel
+                                , viewExpDateYearInput model
+                                ]
+                            , viewExpDateError model
+                            ]
+                        ]
+                    , div [ class "cvc form-group", ariaDescribedby "error--cvc", ariaLive "polite" ]
+                        [ viewCardCvcLabel
+                        , viewCardCvcInput model
+                        , viewCardCvcError model
+                        ]
+                    ]
+                , button [ type_ "submit" ] [ text "Confirm" ]
+                ]
+            ]
+        ]
+
+
+
+--& THANK YOU PAGE
+
+
+viewThankYouPage : Model -> Html Msg
+viewThankYouPage model =
+    div [ class "thank-you-page" ]
+        [ div [ class "image-wrapper" ]
+            [ img [ src "./images/icon-complete.svg" ] []
+            ]
+        , h2 [] [ text "thank you" ]
+        , p [] [ text "We’ve added your card details" ]
+        , button [] [ text "Continue" ]
+        ]
+
+
+
 --^ CREATE FORM CONTROLS
 --? username input
 

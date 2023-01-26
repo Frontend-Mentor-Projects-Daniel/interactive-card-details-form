@@ -351,4 +351,15 @@ span {
   width: 100%;
 }
 
+.thank-you-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 381px;
+}
+.thank-you-page button {
+  align-self: stretch;
+}
+
 /*# sourceMappingURL=styles.css.map */

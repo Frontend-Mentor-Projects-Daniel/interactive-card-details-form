@@ -49,6 +49,8 @@ Users should be able to:
 
 - For React or Elm, they should be given control over the rendering of the state right from the beginning and this gives a lot more flexibility since we don't wait until submission to do something.
 
+- I tried absolute positioning while I got it to work and be responsive, there were too many issues that I wasn't happy with. I find a video by Kevin Powell who covers the same topic and for the same project and after attempting his method, I still found many problems with using absolute positioning for this (_he didn't complete the project, he only did a portion_). If I were to see a design like this in the future, I will definitely use a different method
+
 ### My Opinions on Elm
 
 - It is hard because of the lack of guided tutorials, even the documentation is hard to understand at times but its a good way to program. I went and tried a different project out, one I didn't really think I could do and I followed the Elm architecture, taking Functional Programming principles and applying them and it went really well.
@@ -71,6 +73,7 @@ Users should be able to:
 - [Web.dev](https://web.dev/learn/forms/validation/)
 - [MDN Docs](https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation)
 - [deque.com](https://www.deque.com/blog/anatomy-of-accessible-forms-error-messages/)
+- [Absolute Pos. By Kevin Powell](https://www.youtube.com/watch?v=H04P5YXVssE)
 
 ## Author
 

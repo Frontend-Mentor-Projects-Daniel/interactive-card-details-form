@@ -5260,11 +5260,12 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
+var $author$project$Main$ThankYouPage = {$: 'ThankYouPage'};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{cardCvcError: '', cardExpDateError: '', cardNumberError: '', currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: '', usernameError: ''},
+		{cardCvcError: '', cardExpDateError: '', cardNumberError: '', currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: '', page: $author$project$Main$ThankYouPage, usernameError: ''},
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5383,7 +5384,6 @@ var $author$project$Main$update = F2(
 			}(),
 			$elm$core$Platform$Cmd$none);
 	});
-var $author$project$Main$FormSubmission = {$: 'FormSubmission'};
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
@@ -5394,6 +5394,32 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$footer = _VirtualDom_node('footer');
+var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $elm$html$Html$header = _VirtualDom_node('header');
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $elm$html$Html$img = _VirtualDom_node('img');
+var $elm$html$Html$main_ = _VirtualDom_node('main');
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$html$Html$span = _VirtualDom_node('span');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main$FormSubmission = {$: 'FormSubmission'};
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
 		return A2(
@@ -5405,23 +5431,9 @@ var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby = $elm$html$Html$Attributes$attribute('aria-describedby');
 var $fapian$elm_html_aria$Html$Attributes$Aria$ariaLive = $elm$html$Html$Attributes$attribute('aria-live');
 var $elm$html$Html$button = _VirtualDom_node('button');
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$fieldset = _VirtualDom_node('fieldset');
-var $elm$html$Html$footer = _VirtualDom_node('footer');
 var $elm$html$Html$form = _VirtualDom_node('form');
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $elm$html$Html$header = _VirtualDom_node('header');
-var $elm$html$Html$Attributes$href = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'href',
-		_VirtualDom_noJavaScriptUri(url));
-};
-var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
-var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$html$Html$legend = _VirtualDom_node('legend');
-var $elm$html$Html$main_ = _VirtualDom_node('main');
 var $elm$html$Html$Events$alwaysPreventDefault = function (msg) {
 	return _Utils_Tuple2(msg, true);
 };
@@ -5445,17 +5457,6 @@ var $elm$html$Html$Events$onSubmit = function (msg) {
 			$elm$html$Html$Events$alwaysPreventDefault,
 			$elm$json$Json$Decode$succeed(msg)));
 };
-var $elm$html$Html$p = _VirtualDom_node('p');
-var $elm$html$Html$span = _VirtualDom_node('span');
-var $elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
-};
-var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $author$project$Main$viewCardCvcError = function (model) {
 	return A2(
@@ -5695,6 +5696,195 @@ var $author$project$Main$viewUsernameLabel = A2(
 		[
 			$elm$html$Html$text('cardholder name')
 		]));
+var $author$project$Main$viewMainForm = function (model) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('card card-form')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$form,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onSubmit($author$project$Main$FormSubmission)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$fieldset,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('fieldset--main')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('name form-group'),
+										$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--name'),
+										$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
+									]),
+								_List_fromArray(
+									[
+										$author$project$Main$viewUsernameLabel,
+										$author$project$Main$viewUsernameInput(model),
+										$author$project$Main$viewUsernameError(model)
+									])),
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('number form-group'),
+										$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--number'),
+										$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
+									]),
+								_List_fromArray(
+									[
+										$author$project$Main$viewCardNumberLabel,
+										$author$project$Main$viewCardNumberInput(model),
+										$author$project$Main$viewCardNumberError(model)
+									])),
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('form-group double-group')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$fieldset,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('fieldset--expiry-date')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$legend,
+												_List_Nil,
+												_List_fromArray(
+													[
+														$elm$html$Html$text('exp.date (mm/yy)')
+													])),
+												A2(
+												$elm$html$Html$div,
+												_List_fromArray(
+													[
+														$elm$html$Html$Attributes$class('expiry-wrapper'),
+														$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--expiry-date'),
+														$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
+													]),
+												_List_fromArray(
+													[
+														A2(
+														$elm$html$Html$span,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('month')
+															]),
+														_List_fromArray(
+															[
+																$author$project$Main$viewExpDateMonthLabel,
+																$author$project$Main$viewExpDateMonthInput(model)
+															])),
+														A2(
+														$elm$html$Html$span,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class('year')
+															]),
+														_List_fromArray(
+															[
+																$author$project$Main$viewExpDateYearLabel,
+																$author$project$Main$viewExpDateYearInput(model)
+															])),
+														$author$project$Main$viewExpDateError(model)
+													]))
+											])),
+										A2(
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('cvc form-group'),
+												$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--cvc'),
+												$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
+											]),
+										_List_fromArray(
+											[
+												$author$project$Main$viewCardCvcLabel,
+												$author$project$Main$viewCardCvcInput(model),
+												$author$project$Main$viewCardCvcError(model)
+											]))
+									])),
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$type_('submit')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Confirm')
+									]))
+							]))
+					]))
+			]));
+};
+var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $author$project$Main$viewThankYouPage = function (model) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('thank-you-page')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('image-wrapper')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$img,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$src('./images/icon-complete.svg')
+							]),
+						_List_Nil)
+					])),
+				A2(
+				$elm$html$Html$h2,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('thank you')
+					])),
+				A2(
+				$elm$html$Html$p,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('We’ve added your card details')
+					])),
+				A2(
+				$elm$html$Html$button,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Continue')
+					]))
+			]));
+};
 var $elm$html$Html$Attributes$width = function (n) {
 	return A2(
 		_VirtualDom_attribute,
@@ -5764,6 +5954,15 @@ var $author$project$Main$view = function (model) {
 											]),
 										_List_Nil),
 										A2(
+										$elm$html$Html$img,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('card-front__logo'),
+												$elm$html$Html$Attributes$src('./images/card-logo.svg'),
+												$elm$html$Html$Attributes$alt('')
+											]),
+										_List_Nil),
+										A2(
 										$elm$html$Html$span,
 										_List_fromArray(
 											[
@@ -5791,7 +5990,7 @@ var $author$project$Main$view = function (model) {
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text('mm / yy')
+												$elm$html$Html$text('00 / 00')
 											]))
 									])),
 								A2(
@@ -5824,144 +6023,14 @@ var $author$project$Main$view = function (model) {
 											]))
 									]))
 							])),
-						A2(
-						$elm$html$Html$div,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('card card-form')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$form,
-								_List_fromArray(
-									[
-										$elm$html$Html$Events$onSubmit($author$project$Main$FormSubmission)
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$fieldset,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('fieldset--main')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$div,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('name form-group'),
-														$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--name'),
-														$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
-													]),
-												_List_fromArray(
-													[
-														$author$project$Main$viewUsernameLabel,
-														$author$project$Main$viewUsernameInput(model),
-														$author$project$Main$viewUsernameError(model)
-													])),
-												A2(
-												$elm$html$Html$div,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('number form-group'),
-														$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--number'),
-														$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
-													]),
-												_List_fromArray(
-													[
-														$author$project$Main$viewCardNumberLabel,
-														$author$project$Main$viewCardNumberInput(model),
-														$author$project$Main$viewCardNumberError(model)
-													])),
-												A2(
-												$elm$html$Html$div,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('form-group double-group')
-													]),
-												_List_fromArray(
-													[
-														A2(
-														$elm$html$Html$fieldset,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$class('fieldset--expiry-date')
-															]),
-														_List_fromArray(
-															[
-																A2(
-																$elm$html$Html$legend,
-																_List_Nil,
-																_List_fromArray(
-																	[
-																		$elm$html$Html$text('exp.date (mm/yy)')
-																	])),
-																A2(
-																$elm$html$Html$div,
-																_List_fromArray(
-																	[
-																		$elm$html$Html$Attributes$class('expiry-wrapper'),
-																		$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--expiry-date'),
-																		$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
-																	]),
-																_List_fromArray(
-																	[
-																		A2(
-																		$elm$html$Html$span,
-																		_List_fromArray(
-																			[
-																				$elm$html$Html$Attributes$class('month')
-																			]),
-																		_List_fromArray(
-																			[
-																				$author$project$Main$viewExpDateMonthLabel,
-																				$author$project$Main$viewExpDateMonthInput(model)
-																			])),
-																		A2(
-																		$elm$html$Html$span,
-																		_List_fromArray(
-																			[
-																				$elm$html$Html$Attributes$class('year')
-																			]),
-																		_List_fromArray(
-																			[
-																				$author$project$Main$viewExpDateYearLabel,
-																				$author$project$Main$viewExpDateYearInput(model)
-																			])),
-																		$author$project$Main$viewExpDateError(model)
-																	]))
-															])),
-														A2(
-														$elm$html$Html$div,
-														_List_fromArray(
-															[
-																$elm$html$Html$Attributes$class('cvc form-group'),
-																$fapian$elm_html_aria$Html$Attributes$Aria$ariaDescribedby('error--cvc'),
-																$fapian$elm_html_aria$Html$Attributes$Aria$ariaLive('polite')
-															]),
-														_List_fromArray(
-															[
-																$author$project$Main$viewCardCvcLabel,
-																$author$project$Main$viewCardCvcInput(model),
-																$author$project$Main$viewCardCvcError(model)
-															]))
-													])),
-												A2(
-												$elm$html$Html$button,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$type_('submit')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Confirm')
-													]))
-											]))
-									]))
-							]))
+						function () {
+						var _v0 = model.page;
+						if (_v0.$ === 'MainForm') {
+							return $author$project$Main$viewMainForm(model);
+						} else {
+							return $author$project$Main$viewThankYouPage(model);
+						}
+					}()
 					])),
 				A2(
 				$elm$html$Html$footer,
