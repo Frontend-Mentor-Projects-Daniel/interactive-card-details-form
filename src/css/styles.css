@@ -197,11 +197,8 @@ span {
 }
 
 .wrapper {
-  max-inline-size: 1200px;
-  margin-inline: auto;
-  min-block-size: 100vh;
-  min-block-size: 100dvh;
   display: grid;
+  min-height: 100%;
 }
 
 @media (min-width: 960px) {
@@ -217,6 +214,7 @@ span {
   background-image: url("../../images/bg-main-mobile.png");
   background-repeat: no-repeat;
   background-size: cover;
+  padding-inline: 1rem;
   position: relative;
 }
 .card-image .card-front,
@@ -258,6 +256,7 @@ span {
 }
 .card-image .card-back {
   right: 0;
+  padding-right: 1rem;
   transform: translateY(56%);
 }
 .card-image .card-back__cvc {
@@ -275,6 +274,11 @@ span {
   .card-image {
     align-self: stretch;
     background-image: url("../../images/bg-main-desktop.png");
+    background-size: contain;
+  }
+  .card-image .card-back__cvc {
+    top: 45%;
+    right: 4rem;
   }
 }
 @media (min-width: 60rem) {

@@ -1,11 +1,8 @@
 @use '../../scss/mixins/breakpoints' as *;
 
 .wrapper {
-  max-inline-size: 1200px;
-  margin-inline: auto;
-  min-block-size: 100vh;
-  min-block-size: 100dvh;
   display: grid;
+  min-height: 100%;
 }
 
 @media (min-width: 960px) {

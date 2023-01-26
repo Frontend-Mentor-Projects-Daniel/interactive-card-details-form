@@ -5,14 +5,13 @@
   background-image: url('../../images/bg-main-mobile.png');
   background-repeat: no-repeat;
   background-size: cover;
-  // padding-inline: 2rem;
+  padding-inline: 1rem;
   position: relative;
 
   // applicable to both the front and back cards
   .card-front,
   .card-back {
     position: absolute;
-    // position: relative;
     width: min-content;
   }
 
@@ -65,6 +64,7 @@
   .card-back {
     right: 0;
 
+    padding-right: 1rem;
     transform: translateY(56%);
   }
 
@@ -87,15 +87,12 @@
     align-self: stretch;
 
     background-image: url('../../images/bg-main-desktop.png');
+    background-size: contain;
 
-    .card-front {
-      // transform: translateY(50%);
+    .card-back__cvc {
+      top: 45%;
+      right: 4rem;
     }
-
-    // .card-front__bg,
-    // .card-back__bg {
-    //   width: 447px;
-    // }
   }
 
   // desktop layout
