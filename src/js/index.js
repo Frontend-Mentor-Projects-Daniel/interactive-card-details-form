@@ -5919,12 +5919,6 @@ var $author$project$Main$viewThankYouPage = A2(
 					$elm$html$Html$text('Continue')
 				]))
 		]));
-var $elm$html$Html$Attributes$width = function (n) {
-	return A2(
-		_VirtualDom_attribute,
-		'width',
-		$elm$core$String$fromInt(n));
-};
 var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -5983,8 +5977,7 @@ var $author$project$Main$view = function (model) {
 											[
 												$elm$html$Html$Attributes$class('card-front__bg'),
 												$elm$html$Html$Attributes$src('./images/bg-card-front.png'),
-												$elm$html$Html$Attributes$alt(''),
-												$elm$html$Html$Attributes$width(250)
+												$elm$html$Html$Attributes$alt('')
 											]),
 										_List_Nil),
 										A2(
@@ -6065,8 +6058,7 @@ var $author$project$Main$view = function (model) {
 											[
 												$elm$html$Html$Attributes$class('card-back__bg'),
 												$elm$html$Html$Attributes$src('./images/bg-card-back.png'),
-												$elm$html$Html$Attributes$alt(''),
-												$elm$html$Html$Attributes$width(250)
+												$elm$html$Html$Attributes$alt('')
 											]),
 										_List_Nil),
 										A2(

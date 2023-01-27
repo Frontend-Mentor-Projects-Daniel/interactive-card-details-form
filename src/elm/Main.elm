@@ -158,7 +158,7 @@ view model =
             -- .card-previews
             [ div [ class "card card-image" ]
                 [ div [ class "card-front" ]
-                    [ img [ class "card-front__bg", src "./images/bg-card-front.png", alt "", width 250 ] []
+                    [ img [ class "card-front__bg", src "./images/bg-card-front.png", alt "" ] []
                     , img [ class "card-front__logo", src "./images/card-logo.svg", alt "" ] []
                     , span [ class "card-front__number" ] [ text <| baseTextOrUserInput model.currentCardData "0000 0000 0000 0000" ]
                     , span [ class "card-front__name" ] [ text <| baseTextOrUserInput model.currentUsername "Jane Appleseed" ]
@@ -169,7 +169,7 @@ view model =
                         ]
                     ]
                 , div [ class "card-back" ]
-                    [ img [ class "card-back__bg", src "./images/bg-card-back.png", alt "", width 250 ] []
+                    [ img [ class "card-back__bg", src "./images/bg-card-back.png", alt "" ] []
                     , span [ class "card-back__cvc" ] [ text <| baseTextOrUserInput model.currentCvc "123" ]
                     ]
                 ]

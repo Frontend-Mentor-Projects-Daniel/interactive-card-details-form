@@ -197,119 +197,62 @@ span {
 }
 
 .wrapper {
-  display: grid;
-  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 111px;
 }
 
-@media (min-width: 960px) {
-  .wrapper {
-    align-items: center;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-  }
+.wrapper > div:last-child {
+  padding: 24px;
 }
+
 .card-image {
-  --card-padding-block: 2rem;
-  --card-padding-inline: 2rem;
+  --card-padding: 1rem;
+  --card-width: 285px;
   background-image: url("../../images/bg-main-mobile.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-inline: 1rem;
+  padding: 12px;
   position: relative;
 }
-.card-image .card-front,
-.card-image .card-back {
-  position: absolute;
-  width: min-content;
-}
-.card-image .card-front > *:not(.card-front__bg),
-.card-image .card-back > *:not(.card-back__bg) {
-  position: absolute;
-}
-.card-image .card-front__bg,
-.card-image .card-back__bg {
-  max-width: revert;
-}
 .card-image .card-front {
+  position: absolute;
   bottom: 0;
-  transform: translateY(50%);
-  z-index: 2;
+  max-width: var(--card-width);
+  transform: translateY(44%);
+  z-index: 1;
 }
 .card-image .card-front__logo {
-  top: var(--card-padding-block);
-  left: var(--card-padding-inline);
+  position: absolute;
+  top: var(--card-padding);
+  left: var(--card-padding);
+  max-width: 54px;
 }
 .card-image .card-front__number {
+  position: absolute;
   top: 50%;
-  left: var(--card-padding-inline);
-  font-size: 1.125rem;
+  left: var(--card-padding);
 }
 .card-image .card-front__name {
-  bottom: 1rem;
-  left: var(--card-padding-inline);
-  font-size: 0.5625rem;
+  position: absolute;
+  bottom: var(--card-padding);
+  left: var(--card-padding);
 }
 .card-image .card-front__expiry {
-  bottom: 1rem;
-  right: var(--card-padding-inline);
-  font-size: 0.5625rem;
+  position: absolute;
+  bottom: var(--card-padding);
+  right: var(--card-padding);
 }
 .card-image .card-back {
-  right: 0;
-  padding-right: 1rem;
-  transform: translateY(56%);
+  display: flex;
+  max-width: var(--card-width);
+  margin-left: auto;
+  position: relative;
+  transform: translateY(-5%);
 }
 .card-image .card-back__cvc {
-  top: 44%;
-  right: 3.5rem;
-  font-size: 0.5625rem;
-}
-@media (min-width: 23.4375rem) {
-  .card-image .card-front__bg,
-.card-image .card-back__bg {
-    width: 285px;
-  }
-}
-@media (min-width: 48rem) {
-  .card-image {
-    align-self: stretch;
-    background-image: url("../../images/bg-main-desktop.png");
-    background-size: contain;
-  }
-  .card-image .card-back__cvc {
-    top: 45%;
-    right: 4rem;
-  }
-}
-@media (min-width: 60rem) {
-  .card-image .card-image {
-    display: grid;
-    gap: 2rem;
-  }
-  .card-image .card-front,
-.card-image .card-back {
-    inset: revert;
-    position: relative;
-  }
-  .card-image .card-front__bg,
-.card-image .card-back__bg {
-    width: 447px;
-  }
-  .card-image .card-back {
-    margin-left: auto;
-  }
-  .card-image .card-front__number {
-    font-size: 1.75rem;
-  }
-  .card-image .card-front__name {
-    font-size: 0.875rem;
-  }
-  .card-image .card-front__expiry {
-    font-size: 0.875rem;
-  }
-  .card-image .card-back__cvc {
-    font-size: 0.875rem;
-  }
+  position: absolute;
+  top: 41%;
+  right: 0;
+  transform: translateX(-100%);
 }
 
 .card-form {
@@ -329,6 +272,7 @@ span {
 }
 .card-form .form-group.double-group {
   flex-direction: row;
+  align-items: flex-end;
 }
 .card-form .fieldset--expiry-date legend {
   color: var(--label);
