@@ -89,3 +89,29 @@ input {
 span {
   color: hsl(var(--clr-white));
 }
+
+.card-front__number {
+  font-size: 1.125rem;
+  letter-spacing: 2.2px;
+}
+
+.card-front__name,
+.card-front__expiry,
+.card-back__cvc {
+  font-size: 0.5625rem;
+  letter-spacing: 1.29px;
+}
+
+@media (min-width: 60rem) {
+  .card-front__number {
+    font-size: 1.25rem;
+    letter-spacing: 3.42px;
+  }
+
+  .card-front__name,
+  .card-front__expiry,
+  .card-back__cvc {
+    font-size: 0.875rem;
+    letter-spacing: 2px;
+  }
+}
