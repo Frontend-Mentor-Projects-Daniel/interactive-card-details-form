@@ -206,11 +206,27 @@ span {
   padding: 24px;
 }
 
+@media (min-width: 60rem) {
+  .wrapper {
+    flex-direction: row;
+    justify-content: center;
+    min-height: 100%;
+  }
+  .wrapper > div:first-child {
+    flex-grow: 1;
+  }
+  .wrapper > div:last-child {
+    flex-grow: 3;
+  }
+}
 .card-image {
   --card-padding: 1rem;
   --card-width: 285px;
   background-image: url("../../images/bg-main-mobile.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 12px;
+  padding-top: 32px;
   position: relative;
 }
 .card-image .card-front {
@@ -255,6 +271,31 @@ span {
   transform: translateX(-100%);
 }
 
+@media (min-width: 60rem) {
+  .card-image {
+    --card-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card-image .card-front {
+    bottom: auto;
+    transform: none;
+    top: 50%;
+    right: 0;
+    transform: translate(25%, -125%);
+  }
+  .card-image .card-back {
+    margin: auto;
+    transform: none;
+    transform: translate(45%, 50%);
+  }
+}
+@media (min-width: 1130px) {
+  .card-image .card-back {
+    transform: translate(75%, 50%);
+  }
+}
 .card-form {
   display: grid;
   place-content: center;

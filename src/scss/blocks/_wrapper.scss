@@ -6,9 +6,23 @@
   gap: 111px;
 }
 
-.wrapper > div:first-child {
-}
-
 .wrapper > div:last-child {
   padding: 24px;
+}
+
+@media (min-width: 60rem) {
+  .wrapper {
+    flex-direction: row;
+    justify-content: center;
+
+    min-height: 100%;
+  }
+
+  .wrapper > div:first-child {
+    flex-grow: 1;
+  }
+
+  .wrapper > div:last-child {
+    flex-grow: 3;
+  }
 }

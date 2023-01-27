@@ -244,7 +244,7 @@ viewMainForm model =
 
 viewThankYouPage : Html Msg
 viewThankYouPage =
-    div [ class "thank-you-page" ]
+    div [ class "thank-you-page center" ]
         [ div [ class "image-wrapper" ]
             [ img [ src "./images/icon-complete.svg" ] []
             ]

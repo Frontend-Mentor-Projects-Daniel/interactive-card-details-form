@@ -5874,7 +5874,7 @@ var $author$project$Main$viewThankYouPage = A2(
 	$elm$html$Html$div,
 	_List_fromArray(
 		[
-			$elm$html$Html$Attributes$class('thank-you-page')
+			$elm$html$Html$Attributes$class('thank-you-page center')
 		]),
 	_List_fromArray(
 		[
