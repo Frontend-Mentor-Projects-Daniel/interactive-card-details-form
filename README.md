@@ -56,7 +56,13 @@ Users should be able to:
 - When I first wrote my code, I had the value of the inputs be reflected by what's in the state, this is known as a controlled component in React (_and maybe other frameworks_). I didn't realize that one of the requirements for the project would make it tough when using a controlled component, namely having the cards update their information. I wanted the cards to start with an initial value (_e.g. Jane Appleseed for the card holders name_) but if I set the state to that text, then the value attribute on the input would be set to that as well. The way I got around it was by using a function to determine wether the value attribute was an empty string or not, if it was display by dummy text, else display the value thus the card updates in real time instead of only on form submission
 
 ```elm
+baseTextOrUserInput : String -> String -> String
+baseTextOrUserInput value defaultString =
+    if value == "" then
+        defaultString
 
+    else
+        value
 
 ```
 
