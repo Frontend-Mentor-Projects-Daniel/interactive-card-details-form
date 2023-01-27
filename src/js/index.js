@@ -5260,12 +5260,12 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Main$ThankYouPage = {$: 'ThankYouPage'};
+var $author$project$Main$MainForm = {$: 'MainForm'};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{cardCvcError: '', cardExpDateError: '', cardNumberError: '', currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: '', page: $author$project$Main$ThankYouPage, usernameError: ''},
+		{cardCvcError: '', cardExpDateError: '', cardNumberError: '', currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: '', page: $author$project$Main$MainForm, usernameError: ''},
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5273,6 +5273,7 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
+var $author$project$Main$ThankYouPage = {$: 'ThankYouPage'};
 var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Main$checkIfAnyEmptyStrings = function (model) {
 	var isValid = ((model.currentUsername !== '') && ((model.currentCardData !== '') && ((model.currentExpDateMonth !== '') && ((model.currentExpDateYear !== '') && (model.currentCvc !== ''))))) ? true : false;
@@ -5319,12 +5320,19 @@ var $author$project$Main$regexCvc = A2(
 var $author$project$Main$validateCvc = function (cvc) {
 	return A2($elm$regex$Regex$contains, $author$project$Main$regexCvc, cvc);
 };
-var $author$project$Main$regexExpDate = A2(
+var $author$project$Main$regexExpDateMonth = A2(
+	$elm$core$Maybe$withDefault,
+	$elm$regex$Regex$never,
+	$elm$regex$Regex$fromString('^(0[1-9]|1[0-2])$'));
+var $author$project$Main$validateExpDateMonth = function (expDate) {
+	return A2($elm$regex$Regex$contains, $author$project$Main$regexExpDateMonth, expDate);
+};
+var $author$project$Main$regexExpDateYear = A2(
 	$elm$core$Maybe$withDefault,
 	$elm$regex$Regex$never,
 	$elm$regex$Regex$fromString('^[0-9]{2}$'));
-var $author$project$Main$validateExpDate = function (expDate) {
-	return A2($elm$regex$Regex$contains, $author$project$Main$regexExpDate, expDate);
+var $author$project$Main$validateExpDateYear = function (expDate) {
+	return A2($elm$regex$Regex$contains, $author$project$Main$regexExpDateYear, expDate);
 };
 var $elm$core$String$trim = _String_trim;
 var $author$project$Main$validateUsername = function (username) {
@@ -5341,7 +5349,7 @@ var $author$project$Main$update = F2(
 						var canSubmit = $author$project$Main$checkIfAnyErrors(model) && $author$project$Main$checkIfAnyEmptyStrings(model);
 						return canSubmit ? _Utils_update(
 							model,
-							{currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: ''}) : model;
+							{page: $author$project$Main$ThankYouPage}) : model;
 					case 'CurrentUsernameValue':
 						var username = msg.a;
 						return $author$project$Main$validateUsername(username) ? _Utils_update(
@@ -5361,25 +5369,29 @@ var $author$project$Main$update = F2(
 							{cardNumberError: 'Wrong format, it should resemble: xxxx xxxx xxxx xxxx', currentCardData: cardNumber});
 					case 'CurrentExpDateMonthValue':
 						var expDate = msg.a;
-						return $author$project$Main$validateExpDate(expDate) ? _Utils_update(
+						return $author$project$Main$validateExpDateMonth(expDate) ? _Utils_update(
 							model,
 							{cardExpDateError: '', currentExpDateMonth: expDate}) : _Utils_update(
 							model,
-							{cardExpDateError: 'Must be in the format of 01 - 12', currentExpDateMonth: expDate});
+							{cardExpDateError: 'Must be between  01 - 12', currentExpDateMonth: expDate});
 					case 'CurrentExpDateYearValue':
 						var expDate = msg.a;
-						return $author$project$Main$validateExpDate(expDate) ? _Utils_update(
+						return $author$project$Main$validateExpDateYear(expDate) ? _Utils_update(
 							model,
 							{cardExpDateError: '', currentExpDateYear: expDate}) : _Utils_update(
 							model,
-							{cardExpDateError: 'Must be in the format of 01 - 12', currentExpDateYear: expDate});
-					default:
+							{cardExpDateError: 'Must be in the 2 digits long', currentExpDateYear: expDate});
+					case 'CurrentCardCvcValue':
 						var cvc = msg.a;
 						return $author$project$Main$validateCvc(cvc) ? _Utils_update(
 							model,
 							{cardCvcError: '', currentCvc: cvc}) : _Utils_update(
 							model,
 							{cardCvcError: 'Must contain 3 numbers', currentCvc: cvc});
+					default:
+						return _Utils_update(
+							model,
+							{currentCardData: '', currentCvc: '', currentExpDateMonth: '', currentExpDateYear: '', currentUsername: '', page: $author$project$Main$MainForm});
 				}
 			}(),
 			$elm$core$Platform$Cmd$none);
@@ -5394,6 +5406,10 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
+var $author$project$Main$baseTextOrUserInput = F2(
+	function (value, defaultString) {
+		return (value === '') ? defaultString : value;
+	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$footer = _VirtualDom_node('footer');
@@ -5836,55 +5852,73 @@ var $author$project$Main$viewMainForm = function (model) {
 					]))
 			]));
 };
+var $author$project$Main$GoBackToEmptyForm = {$: 'GoBackToEmptyForm'};
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
-var $author$project$Main$viewThankYouPage = function (model) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('thank-you-page')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('image-wrapper')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$img,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$src('./images/icon-complete.svg')
-							]),
-						_List_Nil)
-					])),
-				A2(
-				$elm$html$Html$h2,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('thank you')
-					])),
-				A2(
-				$elm$html$Html$p,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('We’ve added your card details')
-					])),
-				A2(
-				$elm$html$Html$button,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Continue')
-					]))
-			]));
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
 };
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $author$project$Main$viewThankYouPage = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('thank-you-page')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('image-wrapper')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$img,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$src('./images/icon-complete.svg')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$elm$html$Html$h2,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('thank you')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('We’ve added your card details')
+				])),
+			A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Events$onClick($author$project$Main$GoBackToEmptyForm)
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Continue')
+				]))
+		]));
 var $elm$html$Html$Attributes$width = function (n) {
 	return A2(
 		_VirtualDom_attribute,
@@ -5970,7 +6004,8 @@ var $author$project$Main$view = function (model) {
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text('0000 0000 0000 0000')
+												$elm$html$Html$text(
+												A2($author$project$Main$baseTextOrUserInput, model.currentCardData, '0000 0000 0000 0000'))
 											])),
 										A2(
 										$elm$html$Html$span,
@@ -5980,7 +6015,8 @@ var $author$project$Main$view = function (model) {
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text('Jane Appleseed')
+												$elm$html$Html$text(
+												A2($author$project$Main$baseTextOrUserInput, model.currentUsername, 'Jane Appleseed'))
 											])),
 										A2(
 										$elm$html$Html$span,
@@ -5990,7 +6026,29 @@ var $author$project$Main$view = function (model) {
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text('00 / 00')
+												A2(
+												$elm$html$Html$span,
+												_List_Nil,
+												_List_fromArray(
+													[
+														$elm$html$Html$text(
+														A2($author$project$Main$baseTextOrUserInput, model.currentExpDateMonth, '00'))
+													])),
+												A2(
+												$elm$html$Html$span,
+												_List_Nil,
+												_List_fromArray(
+													[
+														$elm$html$Html$text(' / ')
+													])),
+												A2(
+												$elm$html$Html$span,
+												_List_Nil,
+												_List_fromArray(
+													[
+														$elm$html$Html$text(
+														A2($author$project$Main$baseTextOrUserInput, model.currentExpDateYear, '00'))
+													]))
 											]))
 									])),
 								A2(
@@ -6019,7 +6077,8 @@ var $author$project$Main$view = function (model) {
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text('123')
+												$elm$html$Html$text(
+												A2($author$project$Main$baseTextOrUserInput, model.currentCvc, '123'))
 											]))
 									]))
 							])),
@@ -6028,7 +6087,7 @@ var $author$project$Main$view = function (model) {
 						if (_v0.$ === 'MainForm') {
 							return $author$project$Main$viewMainForm(model);
 						} else {
-							return $author$project$Main$viewThankYouPage(model);
+							return $author$project$Main$viewThankYouPage;
 						}
 					}()
 					])),

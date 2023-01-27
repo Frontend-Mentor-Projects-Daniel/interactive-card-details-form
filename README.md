@@ -47,9 +47,18 @@ Users should be able to:
 
 - The importance of 2 way data binding. This concept isn't unique to Elm. I thought it was fine simply to get the users input and after receiving it, do something with it.
 
+- I decided to have the error messages show after the user starts typing until it passes validation. I don't know if this is more user friendly or simply an annoyance though.
+
 - For React or Elm, they should be given control over the rendering of the state right from the beginning and this gives a lot more flexibility since we don't wait until submission to do something.
 
 - I tried absolute positioning while I got it to work and be responsive, there were too many issues that I wasn't happy with. I find a video by Kevin Powell who covers the same topic and for the same project and after attempting his method, I still found many problems with using absolute positioning for this (_he didn't complete the project, he only did a portion_). If I were to see a design like this in the future, I will definitely use a different method
+
+- When I first wrote my code, I had the value of the inputs be reflected by what's in the state, this is known as a controlled component in React (_and maybe other frameworks_). I didn't realize that one of the requirements for the project would make it tough when using a controlled component, namely having the cards update their information. I wanted the cards to start with an initial value (_e.g. Jane Appleseed for the card holders name_) but if I set the state to that text, then the value attribute on the input would be set to that as well. The way I got around it was by using a function to determine wether the value attribute was an empty string or not, if it was display by dummy text, else display the value thus the card updates in real time instead of only on form submission
+
+```elm
+
+
+```
 
 ### My Opinions on Elm
 

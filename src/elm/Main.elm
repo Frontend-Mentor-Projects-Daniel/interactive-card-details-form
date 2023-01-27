@@ -2,9 +2,9 @@ module Main exposing (Model, Msg, main)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (alt, autocomplete, class, for, href, id, maxlength, minlength, name, placeholder, src, target, type_, value, width)
+import Html.Attributes exposing (alt, class, for, href, id, maxlength, name, placeholder, src, target, type_, value, width)
 import Html.Attributes.Aria exposing (ariaDescribedby, ariaLive)
-import Html.Events exposing (onInput, onSubmit)
+import Html.Events exposing (onClick, onInput, onSubmit)
 import Regex exposing (Regex)
 
 
@@ -64,7 +64,7 @@ init _ =
       , cardNumberError = ""
       , cardExpDateError = ""
       , cardCvcError = ""
-      , page = ThankYouPage
+      , page = MainForm
       }
     , Cmd.none
     )
@@ -81,6 +81,7 @@ type Msg
     | CurrentExpDateMonthValue String
     | CurrentExpDateYearValue String
     | CurrentCardCvcValue String
+    | GoBackToEmptyForm
 
 
 update : Msg -> Model -> ( Model, Cmd msg )
@@ -93,7 +94,8 @@ update msg model =
                     checkIfAnyErrors model && checkIfAnyEmptyStrings model
             in
             if canSubmit == True then
-                { model | currentUsername = "", currentCardData = "", currentExpDateMonth = "", currentExpDateYear = "", currentCvc = "" }
+                -- { model | currentUsername = "", currentCardData = "", currentExpDateMonth = "", currentExpDateYear = "", currentCvc = "", page = ThankYouPage }
+                { model | page = ThankYouPage }
 
             else
                 model
@@ -113,18 +115,18 @@ update msg model =
                 { model | currentCardData = cardNumber, cardNumberError = "Wrong format, it should resemble: xxxx xxxx xxxx xxxx" }
 
         CurrentExpDateMonthValue expDate ->
-            if validateExpDate expDate == True then
+            if validateExpDateMonth expDate == True then
                 { model | currentExpDateMonth = expDate, cardExpDateError = "" }
 
             else
-                { model | currentExpDateMonth = expDate, cardExpDateError = "Must be in the format of 01 - 12" }
+                { model | currentExpDateMonth = expDate, cardExpDateError = "Must be between  01 - 12" }
 
         CurrentExpDateYearValue expDate ->
-            if validateExpDate expDate == True then
+            if validateExpDateYear expDate == True then
                 { model | currentExpDateYear = expDate, cardExpDateError = "" }
 
             else
-                { model | currentExpDateYear = expDate, cardExpDateError = "Must be in the format of 01 - 12" }
+                { model | currentExpDateYear = expDate, cardExpDateError = "Must be in the 2 digits long" }
 
         CurrentCardCvcValue cvc ->
             if validateCvc cvc == True then
@@ -132,6 +134,9 @@ update msg model =
 
             else
                 { model | currentCvc = cvc, cardCvcError = "Must contain 3 numbers" }
+
+        GoBackToEmptyForm ->
+            { model | currentUsername = "", currentCardData = "", currentExpDateMonth = "", currentExpDateYear = "", currentCvc = "", page = MainForm }
     , Cmd.none
     )
 
@@ -155,13 +160,17 @@ view model =
                 [ div [ class "card-front" ]
                     [ img [ class "card-front__bg", src "./images/bg-card-front.png", alt "", width 250 ] []
                     , img [ class "card-front__logo", src "./images/card-logo.svg", alt "" ] []
-                    , span [ class "card-front__number" ] [ text "0000 0000 0000 0000" ]
-                    , span [ class "card-front__name" ] [ text "Jane Appleseed" ]
-                    , span [ class "card-front__expiry" ] [ text "00 / 00" ]
+                    , span [ class "card-front__number" ] [ text <| baseTextOrUserInput model.currentCardData "0000 0000 0000 0000" ]
+                    , span [ class "card-front__name" ] [ text <| baseTextOrUserInput model.currentUsername "Jane Appleseed" ]
+                    , span [ class "card-front__expiry" ]
+                        [ span [] [ text <| baseTextOrUserInput model.currentExpDateMonth "00" ]
+                        , span [] [ text " / " ]
+                        , span [] [ text <| baseTextOrUserInput model.currentExpDateYear "00" ]
+                        ]
                     ]
                 , div [ class "card-back" ]
                     [ img [ class "card-back__bg", src "./images/bg-card-back.png", alt "", width 250 ] []
-                    , span [ class "card-back__cvc" ] [ text "123" ]
+                    , span [ class "card-back__cvc" ] [ text <| baseTextOrUserInput model.currentCvc "123" ]
                     ]
                 ]
             , case model.page of
@@ -169,7 +178,7 @@ view model =
                     viewMainForm model
 
                 ThankYouPage ->
-                    viewThankYouPage model
+                    viewThankYouPage
             ]
         , footer [ class "attribution" ]
             [ p []
@@ -233,15 +242,15 @@ viewMainForm model =
 --& THANK YOU PAGE
 
 
-viewThankYouPage : Model -> Html Msg
-viewThankYouPage model =
+viewThankYouPage : Html Msg
+viewThankYouPage =
     div [ class "thank-you-page" ]
         [ div [ class "image-wrapper" ]
             [ img [ src "./images/icon-complete.svg" ] []
             ]
         , h2 [] [ text "thank you" ]
         , p [] [ text "We’ve added your card details" ]
-        , button [] [ text "Continue" ]
+        , button [ onClick GoBackToEmptyForm ] [ text "Continue" ]
         ]
 
 
@@ -398,9 +407,14 @@ validateCardNumber cardNumber =
     Regex.contains regexCardNumber cardNumber
 
 
-validateExpDate : String -> Bool
-validateExpDate expDate =
-    Regex.contains regexExpDate expDate
+validateExpDateMonth : String -> Bool
+validateExpDateMonth expDate =
+    Regex.contains regexExpDateMonth expDate
+
+
+validateExpDateYear : String -> Bool
+validateExpDateYear expDate =
+    Regex.contains regexExpDateYear expDate
 
 
 validateCvc : String -> Bool
@@ -418,8 +432,14 @@ regexCardNumber =
         Regex.fromString "^[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}$"
 
 
-regexExpDate : Regex.Regex
-regexExpDate =
+regexExpDateMonth : Regex.Regex
+regexExpDateMonth =
+    Maybe.withDefault Regex.never <|
+        Regex.fromString "^(0[1-9]|1[0-2])$"
+
+
+regexExpDateYear : Regex.Regex
+regexExpDateYear =
     Maybe.withDefault Regex.never <|
         Regex.fromString "^[0-9]{2}$"
 
@@ -454,3 +474,12 @@ checkIfAnyEmptyStrings model =
                 False
     in
     isValid
+
+
+baseTextOrUserInput : String -> String -> String
+baseTextOrUserInput value defaultString =
+    if value == "" then
+        defaultString
+
+    else
+        value
