@@ -18,9 +18,12 @@
     gap: 9px;
   }
 
+  // layout
   .form-group.double-group {
-    flex-direction: row;
-    align-items: flex-end;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    align-items: end;
   }
 
   .fieldset--expiry-date {

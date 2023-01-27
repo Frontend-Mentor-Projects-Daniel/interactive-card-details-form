@@ -5371,23 +5371,23 @@ var $author$project$Main$update = F2(
 						var expDate = msg.a;
 						return $author$project$Main$validateExpDateMonth(expDate) ? _Utils_update(
 							model,
-							{cardExpDateError: '', currentExpDateMonth: expDate}) : _Utils_update(
+							{cardCvcError: '', cardExpDateError: '', currentExpDateMonth: expDate}) : _Utils_update(
 							model,
-							{cardExpDateError: 'Must be between  01 - 12', currentExpDateMonth: expDate});
+							{cardCvcError: 'Must contain 3 numbers', cardExpDateError: 'Must be between  01 - 12', currentExpDateMonth: expDate});
 					case 'CurrentExpDateYearValue':
 						var expDate = msg.a;
 						return $author$project$Main$validateExpDateYear(expDate) ? _Utils_update(
 							model,
-							{cardExpDateError: '', currentExpDateYear: expDate}) : _Utils_update(
+							{cardCvcError: '', cardExpDateError: '', currentExpDateYear: expDate}) : _Utils_update(
 							model,
-							{cardExpDateError: 'Must be in the 2 digits long', currentExpDateYear: expDate});
+							{cardCvcError: 'Must contain 3 numbers', cardExpDateError: 'Must be in the 2 digits long', currentExpDateYear: expDate});
 					case 'CurrentCardCvcValue':
 						var cvc = msg.a;
 						return $author$project$Main$validateCvc(cvc) ? _Utils_update(
 							model,
-							{cardCvcError: '', currentCvc: cvc}) : _Utils_update(
+							{cardCvcError: '', cardExpDateError: '', currentCvc: cvc}) : _Utils_update(
 							model,
-							{cardCvcError: 'Must contain 3 numbers', currentCvc: cvc});
+							{cardCvcError: 'Must contain 3 numbers', cardExpDateError: 'Must be in the 2 digits long', currentCvc: cvc});
 					default:
 						return _Utils_update(
 							model,

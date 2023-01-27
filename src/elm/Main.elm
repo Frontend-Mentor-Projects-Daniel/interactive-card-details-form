@@ -116,24 +116,24 @@ update msg model =
 
         CurrentExpDateMonthValue expDate ->
             if validateExpDateMonth expDate == True then
-                { model | currentExpDateMonth = expDate, cardExpDateError = "" }
+                { model | currentExpDateMonth = expDate, cardExpDateError = "", cardCvcError = "" }
 
             else
-                { model | currentExpDateMonth = expDate, cardExpDateError = "Must be between  01 - 12" }
+                { model | currentExpDateMonth = expDate, cardExpDateError = "Must be between  01 - 12", cardCvcError = "Must contain 3 numbers" }
 
         CurrentExpDateYearValue expDate ->
             if validateExpDateYear expDate == True then
-                { model | currentExpDateYear = expDate, cardExpDateError = "" }
+                { model | currentExpDateYear = expDate, cardExpDateError = "", cardCvcError = "" }
 
             else
-                { model | currentExpDateYear = expDate, cardExpDateError = "Must be in the 2 digits long" }
+                { model | currentExpDateYear = expDate, cardExpDateError = "Must be in the 2 digits long", cardCvcError = "Must contain 3 numbers" }
 
         CurrentCardCvcValue cvc ->
             if validateCvc cvc == True then
-                { model | currentCvc = cvc, cardCvcError = "" }
+                { model | currentCvc = cvc, cardCvcError = "", cardExpDateError = "" }
 
             else
-                { model | currentCvc = cvc, cardCvcError = "Must contain 3 numbers" }
+                { model | currentCvc = cvc, cardCvcError = "Must contain 3 numbers", cardExpDateError = "Must be in the 2 digits long" }
 
         GoBackToEmptyForm ->
             { model | currentUsername = "", currentCardData = "", currentExpDateMonth = "", currentExpDateYear = "", currentCvc = "", page = MainForm }
